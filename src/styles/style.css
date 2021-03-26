@@ -1,0 +1,289 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  /* justify-content: space-around; */
+}
+
+code {
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 0.9rem;
+  background-color: #e2e2e2;
+  border-radius: 5px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+  }
+}
+
+/* header */
+.header {
+  display: flex;
+  flex-flow: column;
+  max-width: 15rem;
+  width: 20%;
+  padding: 2rem 1.5rem;
+  margin: 0;
+  box-shadow: 0px 2px 10px #929292;
+}
+
+@media (max-width: 900px) {
+  .header {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* header me */
+.me .icon {
+  width: 60%;
+  margin: auto;
+}
+/* category-list */
+
+@media (max-width: 900px) {
+  .me .icon {
+    width: 30%;
+  }
+}
+
+.tree.category-list {
+  margin: 0 auto;
+  width: 90%;
+}
+
+.tree.category-list ul {
+  padding: 0;
+}
+
+.tree.category-list ul {
+  padding-left: 1.5rem;
+  border-left: 1px solid #aaaaaa;
+}
+
+.tree.category-list ul ul:last-child {
+  margin-bottom: 1.5rem;
+}
+
+.tree.category-list li {
+  list-style: none;
+}
+
+.category-list ul span,
+.category-list ul button {
+  margin: 3px 3px 3px 0;
+  border: none;
+  height: 1.5rem;
+  border-radius: 3px;
+  color: black;
+  font-size: 0.9rem;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: middle;
+}
+
+.category-list .display,
+.category-list .reset {
+  padding: 2px 8px;
+  border: none;
+  border-radius: 3px;
+  background-color: #d0d0d0d0;
+}
+
+.category-list .display {
+  margin: auto 1rem;
+}
+
+.category-list .reset {
+  margin: 0;
+}
+
+.tree.category-list li {
+  margin-top: 3px;
+}
+
+@media (max-width: 900px) {
+  .category-list.tree > div {
+    display: none;
+  }
+}
+
+/*header category-list */
+.tree.category-list ul {
+  justify-content: center;
+}
+
+/* main-content */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem auto;
+  max-width: 50rem;
+  width: 60%;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+/* main-content post */
+.blog-posts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.post-link {
+  text-decoration: none;
+  color: black;
+}
+
+.post {
+  display: flex;
+  justify-content: left;
+  min-height: 20rem;
+  padding: 1rem;
+  margin-bottom: 3rem;
+  box-shadow: 2px 2px 10px #b2b2b2;
+  border-radius: 5px;
+  position: relative;
+  top: 0;
+  transition: all 0.2s ease;
+}
+
+.post:hover {
+  box-shadow: 2px 2px 20px #b2b2b2;
+  top: -5px;
+}
+
+.post .eyecatch {
+  margin: 0;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 5px;
+}
+
+.post .eyecatch img {
+  object-fit: contain;
+  /* min-width:35%; */
+  min-height: 100%;
+}
+
+.post .post-data {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0 1rem;
+  margin: 0 1rem;
+}
+
+.post .post-title {
+  font-size: 1.5rem;
+  margin: auto 0;
+}
+
+.post .post-time {
+  color: grey;
+}
+
+.category-list.line ul {
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto 0;
+  padding: 0;
+}
+
+.category-list.line ul > li {
+  list-style: none;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .post {
+    min-height: 8rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .post {
+    flex-direction: column;
+  }
+  .post .eyecatch {
+    margin: 1rem auto;
+    width: 100%;
+    height: 20rem;
+  }
+  .post .eyecatch img {
+    object-fit: cover;
+  }
+}
+
+/* footer */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: grey;
+  height: 3rem;
+}
+
+/* post.html */
+/* .main-content */
+.main-content .post-eyecatch {
+  margin: 1.5rem 0;
+  width: 100%;
+  height: 15rem;
+}
+
+.main-content .post-eyecatch img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.content-meta .title {
+  margin: 1rem auto;
+  font-size: 2.5rem;
+}
+.content-meta time {
+  color: grey;
+}
+
+/* gatsby-remark-prismjs */
+.gatsby-highlight {
+  background-color: #2d2d2d;
+  border-radius: 0.3em;
+  margin: 0.5em 0;
+  padding: 0.5rem 1rem;
+  overflow: auto;
+}
+
+.gatsby-highlight pre[class*="language-"].line-numbers {
+  padding: 0;
+  padding-left: 2.8em;
+  overflow: initial;
+}
+
+.share-button{
+  display: flex;
+  align-items: center;
+}
+
+.share-button>div{
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
