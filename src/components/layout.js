@@ -2,7 +2,7 @@ import React from "react"
 import Footer from "./footer"
 import Header from "./header"
 
-export default function Layout(props){
+export default function Page(props){
     return(
         <div className="wrapper">
             <Header selectedCategory={props.selectedCategory} onSelectedCategoryChange={props.onSelectedCategoryChange} reset={props.reset}/>
