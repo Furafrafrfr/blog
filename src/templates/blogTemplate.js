@@ -3,7 +3,7 @@ import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import RootCategory from "../categoryTree"
 import { getSelectedCat } from "../categoryController"
-import PostCategoryList from "../components/rowCategoryList"
+import { PostCategoryList } from "../components/category"
 import { GatsbyImage } from "gatsby-plugin-image"
 import Head from "../components/head"
 import {

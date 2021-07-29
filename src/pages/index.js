@@ -1,8 +1,15 @@
 import React, { useState } from "react"
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil"
 import "../styles/style.css"
-import Layout from "../components/layout"
+import Page from "../components/layout"
 import PostList from "../components/postList"
-import RowCategoryList from "../components/rowCategoryList"
+import { PostCategoryList } from "../components/category"
 import Root from "../categoryTree"
 import Head from "../components/head"
 
@@ -41,13 +48,13 @@ export default function Home({ location }) {
   return (
     <React.Fragment>
       <Head siteUrl="/" />
-      <Layout
+      <Page
         selectedCategory={selectedCategory}
         onSelectedCategoryChange={handleSelectedCategoryChange}
         reset={resetSelectedCategory}
       >
-        <h2>投稿</h2>
         <main className="blog-posts">
+          <h2>投稿</h2>
           <div
             style={{
               display: "flex",
@@ -57,7 +64,7 @@ export default function Home({ location }) {
           >
             <div>カテゴリー：</div>
             {selectedCategory.length >= 1 ? (
-              <RowCategoryList
+              <PostCategoryList
                 category={selectedCategory}
                 onSelectedCategoryChange={handleSelectedCategoryChange}
                 bgColor
@@ -73,7 +80,7 @@ export default function Home({ location }) {
           </div>
           <PostList selectedCategory={selectedCategory} />
         </main>
-      </Layout>
+      </Page>
     </React.Fragment>
   )
 }

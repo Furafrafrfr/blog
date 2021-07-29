@@ -38,7 +38,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
-    "react-share": "^4.4.0"
+    "react-share": "^4.4.0",
+    "recoil": "^0.3.1"
   },
   "devDependencies": {
     "prettier": "2.2.1"
