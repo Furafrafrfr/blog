@@ -8,8 +8,8 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import RootCategory from "../categoryTree"
-import {TreeCategoryList} from "./category"
+import { CategoryTagButtonList } from "./category"
+import { useCategories } from "../category/categoryState"
 
 config.autoAddCss = false
 
@@ -27,16 +27,11 @@ export default function Header(props) {
       }
     }
   `)
-  
+
   return (
     <header className="header">
       <Introduction data={data} />
-      <Category
-        reset={props.reset}
-        category={RootCategory}
-        selectedCategory={props.selectedCategory}
-        onSelectedCategoryChange={props.onSelectedCategoryChange}
-      />
+      <Category />
     </header>
   )
 }
@@ -68,7 +63,9 @@ function Introduction({ data }) {
 }
 
 function Category(props) {
-  let [isDisplayed, setIsDisplayed] = React.useState(true)
+  const [isDisplayed, setIsDisplayed] = React.useState(true)
+  const [categories, setCategories] = useCategories()
+
   return (
     <section className="category-list tree">
       <h3 style={{ textAlign: "center" }}>
@@ -91,14 +88,17 @@ function Category(props) {
       </h3>
 
       <div style={{ display: isDisplayed ? "block" : "none" }}>
-        <button className="reset" onClick={() => props.reset()}>
+        <button
+          className="reset"
+          onClick={() =>
+            Array.from(categories.keys)
+              .filter(key => categories.get(key))
+              .forEach(category => setCategories(category))
+          }
+        >
           リセット
         </button>
-        <TreeCategoryList
-          category={RootCategory}
-          selectedCategory={props.selectedCategory}
-          onSelectedCategoryChange={props.onSelectedCategoryChange}
-        />
+        <CategoryTagButtonList />
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 import React from "react"
+import { useCategories } from "../category/categoryState"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons"
 
@@ -6,81 +7,59 @@ import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
-function CategoryElement(props) {
-  return props.isDisplayOnly ? (
-    <span
-      style={{
-        backgroundColor: props.bgColor && props.category.color,
-        color: props.bgColor && "white",
-      }}
-    >
-      {props.category.catName}
+function CategoryTag(props) {
+  return (
+    <span style={{ backgroundColor: "#444444", color: "#eeeeee" }}>
+      {props.category}
     </span>
-  ) : (
+  )
+}
+
+function CategoryTagButton(props) {
+  return (
     <button
       style={{
-        backgroundColor: props.bgColor && props.category.color,
-        color: props.bgColor && "white",
+        backgroundColor: props.isActive ? "#444444" : "#eeeeee",
+        color: props.isActive ? "#eeeeee" : "#444444",
         cursor: "pointer",
       }}
-      onClick={() => props.onSelectedCategoryChange(props.category)}
+      onClick={() => props.onClick(props.category)}
     >
-      {props.cross && (
+      {props.isActive && (
         <FontAwesomeIcon
           icon={faTimesCircle}
           style={{ opacity: "0.5", marginRight: "3px" }}
         />
       )}
-      {props.category.catName}
+      {props.category}
     </button>
   )
 }
 
-export function TreeCategoryList(props) {
+export function CategoryTagButtonList() {
+  const [categories, setCategories] = useCategories()
+  console.log(categories)
   return (
     <ul>
-      {props.category.children.map((cat, index) => {
-        let isSelected =
-          props.selectedCategory.findIndex(selected => selected === cat) >= 0
-        return (
-          <li key={index}>
-            <CategoryElement
-              category={cat}
-              cross={isSelected}
-              bgColor={isSelected}
-              onSelectedCategoryChange={props.onSelectedCategoryChange}
-            />
-            {cat.children.length > 0 && (
-              <TreeCategoryList
-                category={cat}
-                selectedCategory={props.selectedCategory}
-                onSelectedCategoryChange={props.onSelectedCategoryChange}
-              />
-            )}
-          </li>
-        )
-      })}
+      {Array.from(categories.keys()).map((category, index) => (
+        <CategoryTagButton
+          category={category}
+          isActive={categories.get(category)}
+          onClick={category => setCategories(category)}
+          key={index}
+        />
+      ))}
     </ul>
   )
 }
 
-export function PostCategoryList(props) {
+export function CategoryTagList() {
+  const [categories] = useCategories()
   return (
-    <div className="category-list line">
-      {props.children}
-      <ul>
-        {props.category.map((cat, index) => (
-          <li key={index}>
-            <CategoryElement
-              category={cat}
-              bgColor={props.bgColor}
-              cross={props.cross}
-              onSelectedCategoryChange={props.onSelectedCategoryChange}
-              key={index}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {Array.from(categories.keys()).map(category => (
+        <CategoryTag category={category} />
+      ))}
+    </ul>
   )
 }
