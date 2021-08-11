@@ -13,7 +13,7 @@ import { useCategories } from "../category/categoryState"
 
 config.autoAddCss = false
 
-export default function Header(props) {
+export default function Header() {
   const data = useStaticQuery(graphql`
     {
       allFile(filter: { name: { eq: "unnamed" } }) {
@@ -62,14 +62,14 @@ function Introduction({ data }) {
   )
 }
 
-function Category(props) {
+function Category() {
   const [isDisplayed, setIsDisplayed] = React.useState(true)
   const [categories, setCategories] = useCategories()
 
   return (
-    <section className="category-list tree">
+    <section>
       <h3 style={{ textAlign: "center" }}>
-        <button
+        <buton
           type="button"
           onClick={() => setIsDisplayed(!isDisplayed)}
           style={{
@@ -82,23 +82,23 @@ function Category(props) {
           カテゴリー一覧
           <FontAwesomeIcon
             icon={isDisplayed ? faChevronDown : faChevronLeft}
-            style={{ marginLeft: "0.5rem", opacity: "0.5" }}
+            style={{ margin: "0 0.5rem", opacity: "0.5" }}
           />
-        </button>
+        </buton>
       </h3>
 
       <div style={{ display: isDisplayed ? "block" : "none" }}>
         <button
           className="reset"
           onClick={() =>
-            Array.from(categories.keys)
-              .filter(key => categories.get(key))
-              .forEach(category => setCategories(category))
+            Array.from(categories.keys()).forEach(
+              category => categories.get(category) && setCategories(category)
+            )
           }
         >
           リセット
         </button>
-        <CategoryTagButtonList />
+        <CategoryTagButtonList style={{marginTop:"15px"}}/>
       </div>
     </section>
   )

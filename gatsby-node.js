@@ -5,11 +5,17 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allContentfulBlogPost {
+      allContentfulBlogPostV2 {
         edges {
           node {
-            slug
-            category
+            content {
+              childMarkdownRemark {
+                frontmatter {
+                  slug
+                  category
+                }
+              }
+            }
           }
         }
       }
@@ -22,13 +28,21 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.allContentfulBlogPost.edges.forEach(({ node }) => {
+  let initialCategories = new Map()
+  result.data.allContentfulBlogPostV2.edges.forEach(node =>
+    node.content.childMarkdownRemark.frontmatter.category.forEach(category =>
+      initialCategories.set(category, false)
+    )
+  )
+
+  result.data.allContentfulBlogPostV2.edges.forEach(({ node }) => {
     createPage({
-      path: node.slug,
+      path: node.content.childMarkdownRemark.frontmatter.slug,
       component: blogPostTemplate,
       context: {
         // additional data can be passed via context
-        slug: node.slug,
+        slug: node.content.childMarkdownRemark.frontmatter.slug,
+        categories:initialCategories
       },
     })
   })
