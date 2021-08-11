@@ -29,11 +29,14 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   }
 
   let initialCategories = new Map()
-  result.data.allContentfulBlogPostV2.edges.forEach(node =>
+
+  result.data.allContentfulBlogPostV2.edges.forEach(({ node }) => {
     node.content.childMarkdownRemark.frontmatter.category.forEach(category =>
       initialCategories.set(category, false)
     )
-  )
+  })
+
+  console.log(initialCategories)
 
   result.data.allContentfulBlogPostV2.edges.forEach(({ node }) => {
     createPage({
@@ -42,7 +45,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       context: {
         // additional data can be passed via context
         slug: node.content.childMarkdownRemark.frontmatter.slug,
-        categories:initialCategories
+        categories: Array.from(initialCategories.keys()),
       },
     })
   })

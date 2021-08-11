@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, Link, navigate, useStaticQuery } from "gatsby"
+import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
 import { CategoryTagButtonList } from "../components/category"
 import Head from "../components/head"
@@ -13,21 +13,25 @@ import "@fontsource/source-code-pro"
 import { CategoryScope } from "../category/categoryState"
 
 export default function Template({ location, data, pageContext }) {
-
-
-  let contentfulBlogPost = data.contentfulBlogPostV2
+  let frontmatter = data.contentfulBlogPostV2.content.childMarkdownRemark.frontmatter
+  let html=data.contentfulBlogPostV2.content.html
 
   let handleSelectedCategoryChange = cat => {
     navigate("/", { state: { category: cat.catName } })
   }
 
+  let initialCategories = new Map(
+    pageContext.categories.map(key => [key, false])
+  )
+  console.log(pageContext.categories)
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
+
   return (
     <React.Fragment>
       <Head
-        title={contentfulBlogPost.title}
-        description={contentfulBlogPost.content.content}
-        siteUrl={contentfulBlogPost.slug}
+        title={frontmatter.title}
+        description=""
+        siteUrl={frontmatter.slug}
       />
       <CategoryScope categories={initialCategories}>
         <Layout>
@@ -38,9 +42,9 @@ export default function Template({ location, data, pageContext }) {
             <article>
               <div className="content-header">
                 <div className="content-meta">
-                  <h1 className="title">{contentfulBlogPost.title}</h1>
-                  <time dateTime={contentfulBlogPost.date}>
-                    {contentfulBlogPost.date}
+                  <h1 className="title">{frontmatter.title}</h1>
+                  <time dateTime={frontmatter.date}>
+                    {frontmatter.date}
                   </time>
                 </div>
                 <CategoryTagButtonList>
@@ -50,7 +54,7 @@ export default function Template({ location, data, pageContext }) {
               <div
                 className="main-text"
                 dangerouslySetInnerHTML={{
-                  __html: contentfulBlogPost.content.childMarkdownRemark.html,
+                  __html: html,
                 }}
               ></div>
             </article>

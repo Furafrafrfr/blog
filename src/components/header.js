@@ -69,7 +69,7 @@ function Category() {
   return (
     <section>
       <h3 style={{ textAlign: "center" }}>
-        <buton
+        <button
           type="button"
           onClick={() => setIsDisplayed(!isDisplayed)}
           style={{
@@ -84,7 +84,7 @@ function Category() {
             icon={isDisplayed ? faChevronDown : faChevronLeft}
             style={{ margin: "0 0.5rem", opacity: "0.5" }}
           />
-        </buton>
+        </button>
       </h3>
 
       <div style={{ display: isDisplayed ? "block" : "none" }}>
