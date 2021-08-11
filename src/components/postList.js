@@ -25,15 +25,17 @@ export default function PostList(props) {
     }
   `)
 
-  const [categories, ] = useCategories()
+  const [categories] = useCategories()
 
   //選択されているカテゴリが全てカテゴリに含まれている記事をfilter()で探す
   //それをmap()でPostにする
   return data.allContentfulBlogPostV2.nodes
     .filter(({ content }) =>
-      content.childMarkdownRemark.frontmatter.category.some(category =>
-        categories.get(category)
-      )
+      Array.from(categories.values()).every(val => !val)
+        ? true
+        : content.childMarkdownRemark.frontmatter.category.some(category =>
+            categories.get(category)
+          )
     )
     .map(({ content }, index) => (
       <Post pageData={content.childMarkdownRemark.frontmatter} key={index} />
