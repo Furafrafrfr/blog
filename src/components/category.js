@@ -36,28 +36,28 @@ function CategoryTagButton(props) {
   )
 }
 
-export function CategoryTagButtonList() {
+export function CategoryTagButtonList({ showOnlySelected }) {
   const [categories, setCategories] = useCategories()
-  console.log(categories)
   return (
     <ul>
-      {Array.from(categories.keys()).map((category, index) => (
-        <CategoryTagButton
-          category={category}
-          isActive={categories.get(category)}
-          onClick={category => setCategories(category)}
-          key={index}
-        />
-      ))}
+      {Array.from(categories.keys())
+        .filter(showOnlySelected ? key => categories.get(key) : () => true)
+        .map((category, index) => (
+          <CategoryTagButton
+            category={category}
+            isActive={categories.get(category)}
+            onClick={category => setCategories(category)}
+            key={index}
+          />
+        ))}
     </ul>
   )
 }
 
-export function CategoryTagList() {
-  const [categories] = useCategories()
+export function CategoryTagList({category}) {
   return (
     <ul>
-      {Array.from(categories.keys()).map(category => (
+      {category.map(category => (
         <CategoryTag category={category} />
       ))}
     </ul>

@@ -41,9 +41,8 @@ function App() {
           }}
         >
           <div>カテゴリー：</div>
-          {Array.from(categories.keys()).filter(key => categories.get(key))
-            .length >= 1 ? (
-            <CategoryTagButtonList />
+          {Array.from(categories.keys()).some(key => categories.get(key)) ? (
+            <CategoryTagButtonList showOnlySelected={true} />
           ) : (
             <div
               style={{

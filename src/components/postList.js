@@ -31,7 +31,7 @@ export default function PostList(props) {
   //それをmap()でPostにする
   return data.allContentfulBlogPostV2.nodes
     .filter(({ content }) =>
-      content.childMarkdownRemark.frontmatter.category.every(category =>
+      content.childMarkdownRemark.frontmatter.category.some(category =>
         categories.get(category)
       )
     )
