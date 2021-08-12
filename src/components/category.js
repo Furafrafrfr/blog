@@ -50,8 +50,8 @@ export function CategoryTagList({ category, children }) {
   return (
     <div className="category-list">
       {children}
-      {category.map(category => (
-        <CategoryTag category={category} />
+      {category.map((category, index) => (
+        <CategoryTag category={category} key={index} />
       ))}
     </div>
   )

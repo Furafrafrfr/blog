@@ -8,7 +8,7 @@ import Head from "../components/head"
 import { useCategories, CategoryScope } from "../category/categoryState"
 
 export default function Home({ location, data }) {
-  let selected = location.state
+  let selected = location.state && location.state.category
   let initialCategories = new Map()
   data.allContentfulBlogPostV2.nodes.forEach(node =>
     node.content.childMarkdownRemark.frontmatter.category.forEach(category =>
