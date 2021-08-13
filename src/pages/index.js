@@ -1,79 +1,70 @@
-import React, { useState } from "react"
+import React from "react"
+import { graphql } from "gatsby"
 import "../styles/style.css"
 import Page from "../components/layout"
 import PostList from "../components/postList"
-import { PostCategoryList } from "../components/category"
-import Root from "../categoryTree"
+import { CategoryTagButtonList } from "../components/category"
 import Head from "../components/head"
+import { useCategories, CategoryScope } from "../category/categoryState"
 
-export default function Home({ location }) {
-  let stateCategory
-
-  if (location.state) {
-    stateCategory = Root.searchByCatName(location.state.category)
-  }
-
-  const [selectedCategory, setSelectedCategory] = useState(
-    stateCategory !== undefined
-      ? stateCategory !== null
-        ? [stateCategory]
-        : []
-      : []
+export default function Home({ location, data }) {
+  let selected = location.state && location.state.category
+  let initialCategories = new Map()
+  data.sitePage.context.categories.forEach(key =>
+    initialCategories.set(key, false)
   )
-
-  let handleSelectedCategoryChange = category => {
-    let index = selectedCategory.findIndex(
-      scat => scat.catName === category.catName
-    )
-    if (index === -1) {
-      setSelectedCategory(selectedCategory.concat([category]))
-    } else {
-      setSelectedCategory(
-        selectedCategory.filter((scat, arrIndex) => arrIndex !== index)
-      )
-    }
-  }
-
-  let resetSelectedCategory = () => {
-    setSelectedCategory([])
-  }
+  selected && initialCategories.set(selected, true)
 
   return (
     <React.Fragment>
       <Head siteUrl="/" />
-      <Page
-        selectedCategory={selectedCategory}
-        onSelectedCategoryChange={handleSelectedCategoryChange}
-        reset={resetSelectedCategory}
-      >
-        <main className="blog-posts">
-          <h2>投稿</h2>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginBottom: "1rem",
-            }}
-          >
-            <div>カテゴリー：</div>
-            {selectedCategory.length >= 1 ? (
-              <PostCategoryList
-                category={selectedCategory}
-                onSelectedCategoryChange={handleSelectedCategoryChange}
-                bgColor
-                cross
-              />
-            ) : (
-              <div
-                style={{ color: "grey", margin: "3px auto", height: "1.5rem" }}
-              >
-                カテゴリーが選択されていません
-              </div>
-            )}
-          </div>
-          <PostList selectedCategory={selectedCategory} />
-        </main>
-      </Page>
+      <CategoryScope categories={initialCategories}>
+        <App />
+      </CategoryScope>
     </React.Fragment>
   )
 }
+
+function App() {
+  const [categories] = useCategories()
+  return (
+    <Page>
+      <main className="blog-posts">
+        <h2>投稿</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "1rem",
+          }}
+        >
+          <div>カテゴリー：</div>
+          {Array.from(categories.keys()).some(key => categories.get(key)) ? (
+            <CategoryTagButtonList showOnlySelected={true} />
+          ) : (
+            <div
+              style={{
+                color: "grey",
+                margin: "3px auto",
+                height: "1.5rem",
+              }}
+            >
+              カテゴリーが選択されていません
+            </div>
+          )}
+        </div>
+        <PostList />
+      </main>
+    </Page>
+  )
+}
+
+export const query = graphql`
+  query MyQuery {
+    sitePage {
+      context {
+        categories
+      }
+    }
+  }
+`

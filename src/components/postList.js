@@ -1,24 +1,27 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Link } from "gatsby"
-import { GatsbyImage } from "gatsby-plugin-image"
-import { PostCategoryList } from "./category"
-
-import { getSelectedCat } from "../categoryController"
-import Root from "../categoryTree"
+import { CategoryTagList } from "./category"
+import { useCategories } from "../category/categoryState"
 
 export default function PostList(props) {
   const data = useStaticQuery(graphql`
     {
-      allContentfulBlogPost(sort: { order: DESC, fields: date }) {
-        edges {
-          node {
-            slug
-            date(formatString: "YYYY-MM-DD")
-            title
-            category
-            eyecatch {
-              gatsbyImageData(layout: CONSTRAINED)
+      allContentfulBlogPostV2(
+        sort: {
+          fields: content___childrenMarkdownRemark___frontmatter___date
+          order: DESC
+        }
+      ) {
+        nodes {
+          content {
+            childMarkdownRemark {
+              frontmatter {
+                category
+                date(formatString: "YYYY-MM-DD")
+                slug
+                title
+              }
             }
           }
         }
@@ -26,51 +29,30 @@ export default function PostList(props) {
     }
   `)
 
-  return data.allContentfulBlogPost.edges.map((edge, index) => {
-    let dispaly = false
+  const [categories] = useCategories()
 
-    if (props.selectedCategory.length === 0) {
-      dispaly = true
-    } else {
-      dispaly = props.selectedCategory.every(selected =>
-        getSelectedCat(edge.node.category, Root).findIndex(
-          listed => listed === selected
-        ) >= 0
-          ? true
-          : false
-      )
-    }
-
-    return (
-      <Post
-        pageData={edge.node}
-        key={index}
-        childStyle={{ display: dispaly ? "" : "none" }}
-      />
+  //選択されているカテゴリが全てカテゴリに含まれている記事をfilter()で探す。何も選択されてない場合は全部表示。
+  //それをmap()でPostにする
+  return data.allContentfulBlogPostV2.nodes
+    .filter(({ content }) =>
+      Array.from(categories.values()).every(val => !val)
+        ? true
+        : Array.from(categories.keys()).filter(key=>categories.get(key)).every(key =>
+            content.childMarkdownRemark.frontmatter.category.includes(key)
+          )
     )
-  })
+    .map(({ content }, index) => (
+      <Post pageData={content.childMarkdownRemark.frontmatter} key={index} />
+    ))
 }
 
-function Post(props) {
-  let pageData = props.pageData
-
+function Post({ pageData }) {
   return (
     <Link to={pageData.slug} className="post-link">
-      <article className="post" style={props.childStyle}>
-        {pageData.eyecatch && (
-          <GatsbyImage
-            image={pageData.eyecatch.gatsbyImageData}
-            className="eyecatch"
-            alt="アイキャッチ画像"
-          />
-        )}
+      <article className="post">
         <div className="post-data">
           <div className="post-title">{pageData.title}</div>
-          <PostCategoryList
-            category={getSelectedCat(pageData.category, Root)}
-            onSelectedCategoryChange={() => {}}
-            bgColor
-          ></PostCategoryList>
+          <CategoryTagList category={pageData.category} />
 
           <time dateTime={pageData.date} className="post-time">
             {pageData.date}

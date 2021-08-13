@@ -8,12 +8,12 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import RootCategory from "../categoryTree"
-import {TreeCategoryList} from "./category"
+import { CategoryTagButtonList } from "./category"
+import { useCategories } from "../category/categoryState"
 
 config.autoAddCss = false
 
-export default function Header(props) {
+export default function Header() {
   const data = useStaticQuery(graphql`
     {
       allFile(filter: { name: { eq: "unnamed" } }) {
@@ -27,21 +27,16 @@ export default function Header(props) {
       }
     }
   `)
-  
+
   return (
     <header className="header">
       <Introduction data={data} />
-      <Category
-        reset={props.reset}
-        category={RootCategory}
-        selectedCategory={props.selectedCategory}
-        onSelectedCategoryChange={props.onSelectedCategoryChange}
-      />
+      <Category />
     </header>
   )
 }
 
-function Introduction({ data }) {
+const Introduction = React.memo(({ data }) => {
   return (
     <section className="me">
       <figure className="icon">
@@ -53,8 +48,8 @@ function Introduction({ data }) {
       </figure>
       <h2>ぐっちー</h2>
       <p>
-        ぐっちーと言います。経済学部の大学生です。C#を使ってみたりWeb関連の勉強をしています。
-        質問、指摘などがありましたらTwitterアカウントのほうまで
+        ぐっちーと言います。経済学部の大学生です。C#を使ってみたりReactの勉強をしたりしています。
+        質問、指摘などがありましたらTwitterのDMまでお願いします。
       </p>
       <a
         href="https://twitter.com/Furafrafrfr"
@@ -65,12 +60,14 @@ function Introduction({ data }) {
       </a>
     </section>
   )
-}
+})
 
-function Category(props) {
-  let [isDisplayed, setIsDisplayed] = React.useState(true)
+function Category() {
+  const [isDisplayed, setIsDisplayed] = React.useState(true)
+  const [categories, setCategories] = useCategories()
+
   return (
-    <section className="category-list tree">
+    <section>
       <h3 style={{ textAlign: "center" }}>
         <button
           type="button"
@@ -80,25 +77,32 @@ function Category(props) {
             border: "none",
             fontSize: "inherit",
             fontWeight: "inherit",
+            cursor: "pointer",
           }}
         >
           カテゴリー一覧
           <FontAwesomeIcon
             icon={isDisplayed ? faChevronDown : faChevronLeft}
-            style={{ marginLeft: "0.5rem", opacity: "0.5" }}
+            style={{ margin: "0 0.5rem", opacity: "0.5" }}
           />
         </button>
       </h3>
 
       <div style={{ display: isDisplayed ? "block" : "none" }}>
-        <button className="reset" onClick={() => props.reset()}>
+        <button
+          className="reset"
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            Array.from(categories.keys()).forEach(
+              category => categories.get(category) && setCategories(category)
+            )
+          }
+        >
           リセット
         </button>
-        <TreeCategoryList
-          category={RootCategory}
-          selectedCategory={props.selectedCategory}
-          onSelectedCategoryChange={props.onSelectedCategoryChange}
-        />
+        <CategoryTagButtonList style={{ marginTop: "15px" }} />
       </div>
     </section>
   )
