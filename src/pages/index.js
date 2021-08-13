@@ -10,10 +10,8 @@ import { useCategories, CategoryScope } from "../category/categoryState"
 export default function Home({ location, data }) {
   let selected = location.state && location.state.category
   let initialCategories = new Map()
-  data.allContentfulBlogPostV2.nodes.forEach(node =>
-    node.content.childMarkdownRemark.frontmatter.category.forEach(category =>
-      initialCategories.set(category, false)
-    )
+  data.sitePage.context.categories.forEach(key =>
+    initialCategories.set(key, false)
   )
   selected && initialCategories.set(selected, true)
 
@@ -63,15 +61,9 @@ function App() {
 
 export const query = graphql`
   query MyQuery {
-    allContentfulBlogPostV2 {
-      nodes {
-        content {
-          childMarkdownRemark {
-            frontmatter {
-              category
-            }
-          }
-        }
+    sitePage {
+      context {
+        categories
       }
     }
   }

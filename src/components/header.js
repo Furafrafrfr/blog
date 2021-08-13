@@ -36,7 +36,7 @@ export default function Header() {
   )
 }
 
-function Introduction({ data }) {
+const Introduction = React.memo(({ data }) => {
   return (
     <section className="me">
       <figure className="icon">
@@ -48,8 +48,8 @@ function Introduction({ data }) {
       </figure>
       <h2>ぐっちー</h2>
       <p>
-        ぐっちーと言います。経済学部の大学生です。C#を使ってみたりWeb関連の勉強をしています。
-        質問、指摘などがありましたらTwitterアカウントのほうまで
+        ぐっちーと言います。経済学部の大学生です。C#を使ってみたりReactの勉強をしたりしています。
+        質問、指摘などがありましたらTwitterのDMまでお願いします。
       </p>
       <a
         href="https://twitter.com/Furafrafrfr"
@@ -60,7 +60,7 @@ function Introduction({ data }) {
       </a>
     </section>
   )
-}
+})
 
 function Category() {
   const [isDisplayed, setIsDisplayed] = React.useState(true)
@@ -77,6 +77,7 @@ function Category() {
             border: "none",
             fontSize: "inherit",
             fontWeight: "inherit",
+            cursor: "pointer",
           }}
         >
           カテゴリー一覧
@@ -90,6 +91,9 @@ function Category() {
       <div style={{ display: isDisplayed ? "block" : "none" }}>
         <button
           className="reset"
+          style={{
+            cursor: "pointer",
+          }}
           onClick={() =>
             Array.from(categories.keys()).forEach(
               category => categories.get(category) && setCategories(category)
@@ -98,7 +102,7 @@ function Category() {
         >
           リセット
         </button>
-        <CategoryTagButtonList style={{marginTop:"15px"}}/>
+        <CategoryTagButtonList style={{ marginTop: "15px" }} />
       </div>
     </section>
   )

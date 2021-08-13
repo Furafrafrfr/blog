@@ -17,10 +17,6 @@ export default function Wrapper({ location, data, pageContext }) {
   let frontmatter =
     data.contentfulBlogPostV2.content.childMarkdownRemark.frontmatter
 
-  let handleSelectedCategoryChange = cat => {
-    navigate("/", { state: { category: cat.catName } })
-  }
-
   let initialCategories = new Map(
     pageContext.categories.map(key => [key, false])
   )
@@ -48,7 +44,7 @@ export default function Wrapper({ location, data, pageContext }) {
 }
 
 function Template({ frontmatter, html, url }) {
-  const [categories, setCategories] = useCategories()
+  const [categories] = useCategories()
 
   useEffect(() => {
     let keys = Array.from(categories.keys())
