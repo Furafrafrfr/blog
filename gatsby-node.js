@@ -34,6 +34,7 @@ exports.onCreatePage = async ({ page, actions }) => {
           categories: Array.from(categories.keys()),
         },
       })
+      console.log(page.path + " re-created")
     }
   }
 }

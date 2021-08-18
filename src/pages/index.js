@@ -7,10 +7,10 @@ import { CategoryTagButtonList } from "../components/category"
 import Head from "../components/head"
 import { useCategories, CategoryScope } from "../category/categoryState"
 
-export default function Home({ location, data }) {
+export default function Home({ location, data, pageContext }) {
   let selected = location.state && location.state.category
   let initialCategories = new Map()
-  data.sitePage.context.categories.forEach(key =>
+  pageContext.categories.forEach(key =>
     initialCategories.set(key, false)
   )
   selected && initialCategories.set(selected, true)
