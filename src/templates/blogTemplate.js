@@ -20,7 +20,6 @@ export default function Wrapper({ location, data, pageContext }) {
   let initialCategories = new Map(
     pageContext.categories.map(key => [key, false])
   )
-  console.log(pageContext.categories)
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
   return (
@@ -115,6 +114,11 @@ export const pageQuery = graphql`
           }
           html
         }
+      }
+    }
+    sitePage {
+      context {
+        categories
       }
     }
   }

@@ -1,8 +1,3 @@
 ## TODO
-- [ ] categoryのツリー構造廃止。Recoilとfrontmatterで管理。
-- [x] カテゴリ関連のコンポーネントが書かれたファイルまとめる
-## 完成したら
-- [ ] rich textでも作れるようにしたい →allContentfulBlogPostとAllContentfulBlogPostRichTextをconcatしてsort？どっちもhtmlAST使ったほうがいいかも？いらないかも
+- [ ] index.jsのhtml生成する段階でgraphqlのsitePage.context.categoriesがnullで無理になってる（buildのときのみ）（多分）。何か考えろ -> contentfulのapi叩く、、、、？
 
-## 要検討
-- eyecatchめんどいしいらなくね？
