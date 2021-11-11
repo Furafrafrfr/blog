@@ -51,10 +51,11 @@ function Template({ frontmatter, html, url }) {
     if (filtered.length > 0)
       navigate("/", {
         state: {
-          category: filtered[0],
+          category: [...filtered],
         },
       })
   })
+  
   return (
     <main>
       <Link to="/" style={{ color: "black" }}>

@@ -1,44 +1,9 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
-const crypto = require("crypto")
 
 var contentful = require("contentful")
 var fmParser = require("front-matter")
-
-let category_cache = null
-
-exports.onCreatePage = async ({ page, actions }) => {
-  if (category_cache == null) {
-    let client = contentful.createClient({
-      space: process.env.CONTENTFUL_SPACE_ID,
-      accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-    })
-
-    let entries = await client.getEntries({ content_type: "blogPostV2" })
-    if (entries.errors) {
-      console.log(errors)
-    } else {
-      let categories = new Map()
-      entries.items.forEach(({ fields: { content } }) => {
-        let {
-          attributes: { category },
-        } = fmParser(content)
-        category.forEach(str => categories.set(str, false))
-      })
-
-      actions.deletePage(page)
-      actions.createPage({
-        ...page,
-        context: {
-          ...page.context,
-          categories: Array.from(categories.keys()),
-        },
-      })
-      console.log(page.path + " re-created")
-    }
-  }
-}
 
 exports.sourceNodes = async ({
   actions,
@@ -47,6 +12,7 @@ exports.sourceNodes = async ({
 }) => {
   const { createNode } = actions
 
+  //contentfulから記事取得
   let client = contentful.createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
     accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
@@ -56,6 +22,7 @@ exports.sourceNodes = async ({
   if (entries.errors) {
     console.log(errors)
   } else {
+    //使われているカテゴリを抜き出す
     let categories = new Map()
     entries.items.forEach(({ fields: { content } }) => {
       let {
@@ -71,7 +38,7 @@ exports.sourceNodes = async ({
       id: createNodeId(`blog-category-data`),
       children: [],
       internal: {
-        type: "BlogCategoryField",
+        type: "BlogContext",
         contentDigest: createContentDigest(data),
       },
     })

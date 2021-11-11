@@ -7,13 +7,14 @@ import { CategoryTagButtonList } from "../components/category"
 import Head from "../components/head"
 import { useCategories, CategoryScope } from "../category/categoryState"
 
-export default function Home({ location, data, pageContext }) {
+export default function Home({ location, data }) {
   let selected = location.state && location.state.category
+
   let initialCategories = new Map()
-  pageContext.categories.forEach(key =>
-    initialCategories.set(key, false)
-  )
-  selected && initialCategories.set(selected, true)
+  data.blogContext.category.forEach(key => initialCategories.set(key, false))
+
+  if (selected)
+    for (let cat of location.state.category) initialCategories.set(cat, true)
 
   return (
     <React.Fragment>
@@ -61,10 +62,8 @@ function App() {
 
 export const query = graphql`
   query MyQuery {
-    sitePage {
-      context {
-        categories
-      }
+    blogContext {
+      category
     }
   }
 `
