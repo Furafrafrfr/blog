@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { Link } from "gatsby"
 import { CategoryTagList } from "./category"
 import { useCategories } from "../category/categoryState"
+import {keysArray, valuesArray} from "../util/mapUtil"
 
 export default function PostList(props) {
   const data = useStaticQuery(graphql`
@@ -33,17 +34,30 @@ export default function PostList(props) {
 
   //選択されているカテゴリが全てカテゴリに含まれている記事をfilter()で探す。何も選択されてない場合は全部表示。
   //それをmap()でPostにする
-  return data.allContentfulBlogPostV2.nodes
-    .filter(({ content }) =>
-      Array.from(categories.values()).every(val => !val)
-        ? true
-        : Array.from(categories.keys()).filter(key=>categories.get(key)).every(key =>
-            content.childMarkdownRemark.frontmatter.category.includes(key)
-          )
-    )
-    .map(({ content }, index) => (
+  let { nodes } = data.allContentfulBlogPostV2
+
+  //categoriesでvalueが全てfalseの場合noSelectedをtrueに
+  let valueArray = valuesArray(categories)
+  let noSelected = valueArray.every(val => !val)
+
+  if (noSelected) {
+    //全て表示
+    return nodes.map(({ content }, index) => (
       <Post pageData={content.childMarkdownRemark.frontmatter} key={index} />
     ))
+  }
+
+  //選ばれたカテゴリを全て含むものだけ表示
+  let selectedCategory = keysArray(categories).filter(key => categories.get(key))
+  let filteredNodes = nodes.filter(({ content }) =>
+    selectedCategory.every(category =>
+      content.childMarkdownRemark.frontmatter.category.includes(category)
+    )
+  )
+
+  return filteredNodes.map(({ content }, index) => (
+    <Post pageData={content.childMarkdownRemark.frontmatter} key={index} />
+  ))
 }
 
 function Post({ pageData }) {

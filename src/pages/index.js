@@ -8,11 +8,12 @@ import Head from "../components/head"
 import { useCategories, CategoryScope } from "../category/categoryState"
 
 export default function Home({ location, data }) {
-  let selected = location.state && location.state.category
-
+  //カテゴリの設定
   let initialCategories = new Map()
   data.blogContext.category.forEach(key => initialCategories.set(key, false))
 
+  //記事ページからカテゴリを指定されて飛んできたときにそのカテゴリをtrueな感じにする
+  let selected = location.state && location.state.category
   if (selected)
     for (let cat of location.state.category) initialCategories.set(cat, true)
 
