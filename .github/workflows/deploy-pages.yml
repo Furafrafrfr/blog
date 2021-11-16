@@ -25,13 +25,14 @@ jobs:
         run: |
           npm i -g gatsby-cli@3.0.0 yarn@1.22.10
           yarn install
-      
+
       - name: Build
         run: "gatsby build"
-      
+
       - name: Deploy on Github Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{secrets.ACTIONS_DEPLOY_KEY}}
+          external_reposityory: Furafrafrfr/Furafrafrfr.github.io
           publish_dir: ./public
-        
