@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkgatsby_starter_hello_world=self.webpackChunkgatsby_starter_hello_world||[]).push([[883],{9616:function(e,t,l){l.r(t),l.d(t,{default:function(){return u}});var n=l(5444),r=l(7294),a=l(4695);function u(e){var t=e.location;return r.createElement(r.Fragment,null,r.createElement(a.Z,{title:"404"}),r.createElement("h1",null,"Page Not Found"),r.createElement("p",null,'指定されたURL"',t.href,'"は見つかりませんでした。'),r.createElement(n.Link,{to:"/"},"ホームへ移動する"))}}}]);
+//# sourceMappingURL=component---src-pages-404-js-2be430d0f74bb0e55347.js.map

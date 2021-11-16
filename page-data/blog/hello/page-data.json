@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-blog-template-js",
+    "path": "/blog/hello",
+    "result": {"data":{"site":{"siteMetadata":{"siteUrl":"https://nettori.netlify.app"}},"contentfulBlogPostV2":{"content":{"childMarkdownRemark":{"frontmatter":{"category":["その他"],"date":"2021-03-26","slug":"/blog/hello","title":"こんにちわ"},"html":"<p>ブログを作りました。何を書くかは具体的には決めてませんがさぼらないように書いていきたいと思います。</p>\n<p>ざっくり勉強したことを中心に書こうと思って作ったブログなので技術的な話をすると、静的サイトジェネレーターのGatsby.jsでビルドしたサイトをNetlifyで公開しています。ヘッドレスCMSとしてContentfulを使っています。ちゃんとしたwebサイトを自分で一から作ることやReactを使うは初めてでしたが、Reactも含めどちらもドキュメントがかなりしっかりしていて使いやすかったと思います。</p>\n<p>初めのあいさつでした。</p>"}}},"sitePage":{"context":{"categories":null}}},"pageContext":{"slug":"/blog/hello","categories":["その他","ソフトウェア関係","本"]}},
+    "staticQueryHashes": ["1061408539","3558571327"]}
