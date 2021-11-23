@@ -3,7 +3,11 @@ name: deploy on github pages
 on:
   push:
     branches:
-      - master
+      - main
+  workflow_dispatch:
+  
+
+
 
 jobs:
   deploy:
@@ -35,4 +39,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           deploy_key: ${{secrets.ACTIONS_DEPLOY_KEY}}
           external_repository: Furafrafrfr/Furafrafrfr.github.io
+          publish_branch: main
           publish_dir: ./public
