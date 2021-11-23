@@ -14,7 +14,7 @@ module.exports = {
     title: "ぐちろぐ",
     description: "ぐっちーのブログ",
     lang: "ja",
-    siteUrl: "https://nettori.netlify.app",
+    siteUrl: "https://furafrafrfr.github.io",
   },
   plugins: [
     {
