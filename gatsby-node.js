@@ -5,10 +5,8 @@ require("dotenv").config({
 var contentful = require("contentful")
 var fmParser = require("front-matter")
 
-exports.sourceNodes = async ({
-  actions,
-  createNodeId,
-  createContentDigest,
+exports.createSchemaCustomization = async ({
+  actions
 }) => {
   const { createNode } = actions
 
