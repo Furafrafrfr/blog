@@ -13,12 +13,12 @@ import "@fontsource/source-code-pro"
 import { CategoryScope } from "../category/categoryState"
 import { useCategories } from "../category/categoryState"
 
-export default function Wrapper({ location, data, pageContext }) {
+export default function Wrapper({ location, data }) {
   let frontmatter =
     data.contentfulBlogPostV2.content.childMarkdownRemark.frontmatter
 
   let initialCategories = new Map(
-    pageContext.categories.map(key => [key, false])
+    data.blogContext.category.map(key => [key, false])
   )
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
@@ -117,10 +117,8 @@ export const pageQuery = graphql`
         }
       }
     }
-    sitePage {
-      context {
-        categories
-      }
+    blogContext {
+      category
     }
   }
 `
