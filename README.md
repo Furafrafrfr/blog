@@ -1,4 +1,4 @@
-# [nettori.netlify.app](https://nettori.netlify.app)
+# [https://furafrafrfr.github.io](https://furafrafrfr.github.io)
 ## contentfulのmarkdownにつけるfrontmatterについて
 yamlで書く。`gatsby-transformer-remark`がパースしてくれる。
 - title:String・・・タイトル
