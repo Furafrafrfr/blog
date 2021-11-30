@@ -16,11 +16,16 @@ config.autoAddCss = false
 export default function Header() {
   const data = useStaticQuery(graphql`
     {
-      allFile(filter: { name: { eq: "unnamed" } }) {
+      allFile(filter: { name: { eq: "無題2" } }) {
         edges {
           node {
             childImageSharp {
-              gatsbyImageData(layout: CONSTRAINED)
+              gatsbyImageData(
+                layout: CONSTRAINED
+                placeholder: TRACED_SVG
+                height: 600
+                width: 600
+              )
             }
           }
         }
@@ -49,15 +54,7 @@ const Introduction = React.memo(({ data }) => {
       <h2>ぐっちー</h2>
       <p>
         ぐっちーと言います。経済学部の大学生です。C#を使ってみたりReactの勉強をしたりしています。
-        質問、指摘などがありましたらTwitterのDMまでお願いします。
       </p>
-      <a
-        href="https://twitter.com/Furafrafrfr"
-        target="_blank"
-        rel="noopner noreferrer"
-      >
-        @Furafrafrfr
-      </a>
     </section>
   )
 })
