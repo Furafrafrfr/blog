@@ -1,5 +1,6 @@
 import React from "react"
-import { useCategories } from "../category/categoryState"
+import { useCategory } from "../category/categoryState"
+import { getMapKeys } from "../util/mapUtil"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons"
 
@@ -7,25 +8,53 @@ import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
-export function CategoryTagButtonList({ showOnlySelected, style }) {
-  const [categories, setCategories] = useCategories()
+export function SelectedCategoryList() {
+  const [category, setCategory] = useCategory()
   return (
-    <div className="category-list" style={style}>
-      {Array.from(categories.keys())
-        .filter(showOnlySelected ? key => categories.get(key) : () => true)
-        .map((category, index) => (
-          <CategoryTagButton
-            category={category}
-            isActive={categories.get(category)}
-            onClick={category => setCategories(category)}
+    <div className="category-list">
+      {getMapKeys(category)
+        .filter(key => category.get(key))
+        .map((key, index) => (
+          <CategoryButton
+            isActive={true}
+            onClick={() => setCategory(key, !category.get(key))}
             key={index}
-          />
+          >
+            {key}
+          </CategoryButton>
         ))}
     </div>
   )
 }
 
-function CategoryTagButton(props) {
+export function CategorySelector() {
+  const [category, setCategory] = useCategory()
+  return (
+    <div className="category-list" style={{ marginTop: "15px" }}>
+      {getMapKeys(category).map((categoryKey, index) => (
+        <CategoryButton
+          isActive={category.get(categoryKey)}
+          onClick={() => setCategory(categoryKey, !category.get(categoryKey))}
+          key={index}
+        >
+          {categoryKey}
+        </CategoryButton>
+      ))}
+    </div>
+  )
+}
+
+export function CategoryList({ category }) {
+  return (
+    <div className="category-list">
+      {category.map((category, index) => (
+        <CategorySpan key={index}>{category}</CategorySpan>
+      ))}
+    </div>
+  )
+}
+
+function CategoryButton(props) {
   return (
     <button
       style={{
@@ -41,26 +70,17 @@ function CategoryTagButton(props) {
           style={{ opacity: "0.5", marginRight: "8px" }}
         />
       )}
-      {props.category}
+      {props.children}
     </button>
   )
 }
 
-export function CategoryTagList({ category, children }) {
+function CategorySpan(props) {
   return (
-    <div className="category-list">
-      {children}
-      {category.map((category, index) => (
-        <CategoryTag category={category} key={index} />
-      ))}
-    </div>
-  )
-}
-
-function CategoryTag(props) {
-  return (
-    <div style={{ backgroundColor: "#444444", color: "#eeeeee" }}>
-      {props.category}
-    </div>
+    <span
+      style={{ backgroundColor: "#444444", color: "#cccccc", cursor: "pointer" }}
+    >
+      {props.children}
+    </span>
   )
 }

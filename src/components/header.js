@@ -8,8 +8,8 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import { CategoryTagButtonList } from "./category"
-import { useCategories } from "../category/categoryState"
+import { CategorySelector } from "./category"
+import { useCategory } from "../category/categoryState"
 
 config.autoAddCss = false
 
@@ -61,7 +61,7 @@ const Introduction = React.memo(({ data }) => {
 
 function Category() {
   const [isDisplayed, setIsDisplayed] = React.useState(true)
-  const [categories, setCategories] = useCategories()
+  const [category, setCategory] = useCategory()
 
   return (
     <section>
@@ -91,15 +91,11 @@ function Category() {
           style={{
             cursor: "pointer",
           }}
-          onClick={() =>
-            Array.from(categories.keys()).forEach(
-              category => categories.get(category) && setCategories(category)
-            )
-          }
+          onClick={() => category.forEach((_, key) => setCategory(key, false))}
         >
           リセット
         </button>
-        <CategoryTagButtonList style={{ marginTop: "15px" }} />
+        <CategorySelector />
       </div>
     </section>
   )

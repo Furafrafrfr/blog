@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { graphql, Link, navigate } from "gatsby"
 import Layout from "../components/layout"
-import { CategoryTagList } from "../components/category"
+import { CategoryList } from "../components/category"
 import Head from "../components/head"
 import {
   HatenaShareButton,
@@ -10,14 +10,14 @@ import {
   TwitterIcon,
 } from "react-share"
 import "@fontsource/source-code-pro"
-import { CategoryScope } from "../category/categoryState"
-import { useCategories } from "../category/categoryState"
+import { CategoryScope, useCategory } from "../category/categoryState"
+import { getMapKeys } from "../util/mapUtil"
 
 export default function Wrapper({ location, data }) {
   let frontmatter =
     data.contentfulBlogPostV2.content.childMarkdownRemark.frontmatter
 
-  let initialCategories = new Map(
+  let initialCategory = new Map(
     data.blogContext.category.map(key => [key, false])
   )
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
@@ -29,7 +29,7 @@ export default function Wrapper({ location, data }) {
         description=""
         siteUrl={frontmatter.slug}
       />
-      <CategoryScope categories={initialCategories}>
+      <CategoryScope category={initialCategory}>
         <Layout>
           <Template
             frontmatter={frontmatter}
@@ -43,11 +43,11 @@ export default function Wrapper({ location, data }) {
 }
 
 function Template({ frontmatter, html, url }) {
-  const [categories] = useCategories()
+  const [category] = useCategory()
 
   useEffect(() => {
-    let keys = Array.from(categories.keys())
-    let filtered = keys.filter(key => categories.get(key))
+    let keys = getMapKeys(category)
+    let filtered = keys.filter(key => category.get(key))
     if (filtered.length > 0)
       navigate("/", {
         state: {
@@ -55,7 +55,7 @@ function Template({ frontmatter, html, url }) {
         },
       })
   })
-  
+
   return (
     <main>
       <Link to="/" style={{ color: "black" }}>
@@ -67,9 +67,9 @@ function Template({ frontmatter, html, url }) {
             <h1 className="title">{frontmatter.title}</h1>
             <time dateTime={frontmatter.date}>{frontmatter.date}</time>
           </div>
-          <CategoryTagList category={frontmatter.category}>
+          <CategoryList category={frontmatter.category}>
             <span>カテゴリ:</span>
-          </CategoryTagList>
+          </CategoryList>
         </div>
         <div
           className="main-text"
@@ -79,7 +79,7 @@ function Template({ frontmatter, html, url }) {
         ></div>
       </article>
       <div className="share-button">
-        この記事をシェア：
+        この記事をシェア:
         <div>
           <TwitterShareButton url={url}>
             <TwitterIcon size={32} round={true} />

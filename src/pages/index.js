@@ -3,24 +3,25 @@ import { graphql } from "gatsby"
 import "../styles/style.css"
 import Page from "../components/layout"
 import PostList from "../components/postList"
-import { CategoryTagButtonList } from "../components/category"
+import { SelectedCategoryList } from "../components/category"
 import Head from "../components/head"
-import { useCategories, CategoryScope } from "../category/categoryState"
+import { useCategory, CategoryScope } from "../category/categoryState"
+import { getMapValues } from "../util/mapUtil"
 
 export default function Home({ location, data }) {
   //カテゴリの設定
-  let initialCategories = new Map()
-  data.blogContext.category.forEach(key => initialCategories.set(key, false))
+  let initialCategory = new Map()
+  data.blogContext.category.forEach(key => initialCategory.set(key, false))
 
   //記事ページからカテゴリを指定されて飛んできたときにそのカテゴリをtrueな感じにする
   let selected = location.state && location.state.category
   if (selected)
-    for (let cat of location.state.category) initialCategories.set(cat, true)
+    for (let cat of location.state.category) initialCategory.set(cat, true)
 
   return (
     <React.Fragment>
       <Head siteUrl="/" />
-      <CategoryScope categories={initialCategories}>
+      <CategoryScope category={initialCategory}>
         <App />
       </CategoryScope>
     </React.Fragment>
@@ -28,7 +29,8 @@ export default function Home({ location, data }) {
 }
 
 function App() {
-  const [categories] = useCategories()
+  const [category] = useCategory()
+  console.log(category)
   return (
     <Page>
       <main className="blog-posts">
@@ -40,9 +42,9 @@ function App() {
             marginBottom: "1rem",
           }}
         >
-          <div>カテゴリー：</div>
-          {Array.from(categories.keys()).some(key => categories.get(key)) ? (
-            <CategoryTagButtonList showOnlySelected={true} />
+          <div>カテゴリー:</div>
+          {getMapValues(category).some(isSelected => isSelected) ? (
+            <SelectedCategoryList />
           ) : (
             <div
               style={{

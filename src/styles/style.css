@@ -144,7 +144,8 @@ div.category-list {
 }
 
 .category-list div,
-.category-list button {
+.category-list button,
+.category-list span {
   display: block;
   border: none;
   border-radius: 3px;

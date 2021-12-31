@@ -1,7 +1,7 @@
-export function keysArray(map) {
+export function getMapKeys(map) {
   return Array.from(map.keys())
 }
 
-export function valuesArray(map) {
+export function getMapValues(map) {
   return Array.from(map.values())
 }
