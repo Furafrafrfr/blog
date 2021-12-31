@@ -8,6 +8,11 @@ import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 config.autoAddCss = false
 
+const selectedBg = "#333333"
+const noSelectedBg = "#ffffff"
+const selectedCol = "#ffffff"
+const noSelectedCol = "#202020"
+
 export function SelectedCategoryList() {
   const [category, setCategory] = useCategory()
   return (
@@ -58,8 +63,9 @@ function CategoryButton(props) {
   return (
     <button
       style={{
-        backgroundColor: props.isActive ? "#444444" : "#cccccc",
-        color: props.isActive ? "#cccccc" : "#444444",
+        backgroundColor: props.isActive ? selectedBg : noSelectedBg,
+        color: props.isActive ? selectedCol : noSelectedCol,
+        border: `1px solid ${noSelectedCol}`,
         cursor: "pointer",
       }}
       onClick={() => props.onClick(props.category)}
@@ -78,7 +84,11 @@ function CategoryButton(props) {
 function CategorySpan(props) {
   return (
     <span
-      style={{ backgroundColor: "#444444", color: "#cccccc", cursor: "pointer" }}
+      style={{
+        backgroundColor: selectedBg,
+        color: selectedCol,
+        cursor: "pointer",
+      }}
     >
       {props.children}
     </span>
