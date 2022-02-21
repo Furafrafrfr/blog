@@ -1,54 +1,25 @@
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil"
+import { RecoilRoot, atom, useRecoilState } from "recoil"
 import React from "react"
 
-const categoriesState = atom({ key: "categories", default: new Map() })
+const categoryState = atom({ key: "categoryKey", default: new Map() })
 
-const categoryKeyState = selector({
-  key: "categoryKey",
-  get: ({ get }) => {
-    const categories = get(categoriesState)
+export function useCategory() {
+  const [category, _setCategory] = useRecoilState(categoryState)
+  const setCategory = (categoryKey, isSelected) =>
+    _setCategory(new Map(category.set(categoryKey, isSelected)))
 
-    return Array.from(categories.keys())
-  },
-})
+  const toggleCategory = categoryKey =>
+    _setCategory(new Map(category.set(categoryKey, !category.get(categoryKey))))
 
-const categoryValueState = selector({
-  key: "categoryValue",
-  get: ({ get }) => {
-    const categories = get(categoriesState)
-
-    return Array.from(categories.values())
-  },
-})
-
-export function useCategories() {
-  const [categories, setCategories] = useRecoilState(categoriesState)
   return [
-    categories,
-    category =>
-      setCategories(
-        new Map(categories.set(category, !categories.get(category)))
-      ),
+    category,
+    setCategory,
+    toggleCategory,
   ]
 }
-
-export function useCategoryKeyState() {
-  return useRecoilValue(categoryKeyState)
-}
-
-export function useCategoryValueState() {
-  return useRecoilValue(categoryValueState)
-}
-
-export function CategoryScope({ categories, children }) {
+export function CategoryScope({ category, children }) {
   return (
-    <RecoilRoot initializeState={({ set }) => set(categoriesState, categories)}>
+    <RecoilRoot initializeState={({ set }) => set(categoryState, category)}>
       {children}
     </RecoilRoot>
   )
