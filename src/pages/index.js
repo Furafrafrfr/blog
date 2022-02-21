@@ -18,17 +18,19 @@ export default function Home({ location, data }) {
   if (selected)
     for (let cat of location.state.category) initialCategory.set(cat, true)
 
+  let posts = data.allContentfulBlogPostV2.edges
+
   return (
     <React.Fragment>
       <Head siteUrl="/" />
       <CategoryScope category={initialCategory}>
-        <App />
+        <App posts={posts} />
       </CategoryScope>
     </React.Fragment>
   )
 }
 
-function App() {
+function App({posts}) {
   const [category] = useCategory()
   return (
     <Page>
@@ -56,7 +58,7 @@ function App() {
             </div>
           )}
         </div>
-        <PostList />
+        <PostList posts={posts} />
       </main>
     </Page>
   )
@@ -64,6 +66,27 @@ function App() {
 
 export const query = graphql`
   query MyQuery {
+    site {
+      siteMetadata {
+        siteUrl
+      }
+    }
+    allContentfulBlogPostV2 {
+      edges {
+        node {
+          content {
+            childMarkdownRemark {
+              frontmatter {
+                category
+                date
+                slug
+                title
+              }
+            }
+          }
+        }
+      }
+    }
     blogContext {
       category
     }
