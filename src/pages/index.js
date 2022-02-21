@@ -30,7 +30,6 @@ export default function Home({ location, data }) {
 
 function App() {
   const [category] = useCategory()
-  console.log(category)
   return (
     <Page>
       <main className="blog-posts">
