@@ -72,4 +72,4 @@ yarn-error.log
 .env.development
 .env.production
 
-src/posts
+src/posts/
