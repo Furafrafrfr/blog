@@ -13,26 +13,22 @@ export default function PostList(props) {
   //それをmap()でPostにする
   if (getMapValues(allCategory).some(val => val === true)) {
     return posts.map(({ node }) => (
-      <Post pageData={node.content.childMarkdownRemark.frontmatter} key={node.content.childMarkdownRemark.frontmatter.slug}/>
+      <Post pageData={node.frontmatter} key={node.frontmatter.slug} />
     ))
   } else {
     return posts
-      .filter(
-        ({
-          node: {
-            content: {
-              childMarkdownRemark: {
-                frontmatter: { category },
-              },
-            },
-          },
-        }) =>
-          category.every(c =>
-            getMapKeys(allCategory).some(category => category === c)
-          )
+      .filter(({ node: { frontmatter: { category } } }) =>
+        category.every(c =>
+          getMapKeys(allCategory).some(category => category === c)
+        )
       )
       .map(({ node }) => {
-        return <Post pageData={node.content.childMarkdownRemark.frontmatter} key={node.content.childMarkdownRemark.frontmatter.slug}/>
+        return (
+          <Post
+            pageData={node.frontmatter}
+            key={node.frontmatter.slug}
+          />
+        )
       })
   }
 }

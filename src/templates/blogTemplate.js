@@ -14,8 +14,7 @@ import { CategoryScope, useCategory } from "../category/categoryState"
 import { getMapKeys } from "../util/mapUtil"
 
 export default function Wrapper({ location, data }) {
-  let frontmatter =
-    data.contentfulBlogPostV2.content.childMarkdownRemark.frontmatter
+  let frontmatter = data.markdownRemark.frontmatter
 
   let initialCategory = new Map(
     data.blogContext.category.map(key => [key, false])
@@ -33,7 +32,7 @@ export default function Wrapper({ location, data }) {
         <Layout>
           <Template
             frontmatter={frontmatter}
-            html={data.contentfulBlogPostV2.content.childMarkdownRemark.html}
+            html={data.markdownRemark.html}
             url={url}
           />
         </Layout>
@@ -102,20 +101,14 @@ export const pageQuery = graphql`
         siteUrl
       }
     }
-    contentfulBlogPostV2(
-      content: { childMarkdownRemark: { frontmatter: { slug: { eq: $slug } } } }
-    ) {
-      content {
-        childMarkdownRemark {
-          frontmatter {
-            category
-            date(formatString: "YYYY-MM-DD")
-            slug
-            title
-          }
-          html
-        }
+    markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+      frontmatter {
+        category
+        title
+        slug
+        date(formatString: "YYYY-MM-DD")
       }
+      html
     }
     blogContext {
       category

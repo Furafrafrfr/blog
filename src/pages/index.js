@@ -18,7 +18,7 @@ export default function Home({ location, data }) {
   if (selected)
     for (let cat of location.state.category) initialCategory.set(cat, true)
 
-  let posts = data.allContentfulBlogPostV2.edges
+  let posts = data.allMarkdownRemark.edges
 
   return (
     <React.Fragment>
@@ -30,7 +30,7 @@ export default function Home({ location, data }) {
   )
 }
 
-function App({posts}) {
+function App({ posts }) {
   const [category] = useCategory()
   return (
     <Page>
@@ -71,18 +71,14 @@ export const query = graphql`
         siteUrl
       }
     }
-    allContentfulBlogPostV2 {
+    allMarkdownRemark (sort: {fields: frontmatter___date, order: DESC}){
       edges {
         node {
-          content {
-            childMarkdownRemark {
-              frontmatter {
-                category
-                date
-                slug
-                title
-              }
-            }
+          frontmatter {
+            category
+            date(formatString: "YYYY-MM-DD")
+            slug
+            title
           }
         }
       }
