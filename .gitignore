@@ -71,3 +71,5 @@ yarn-error.log
 #Environment variables
 .env.development
 .env.production
+
+src/posts
