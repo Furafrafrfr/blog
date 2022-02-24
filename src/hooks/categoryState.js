@@ -15,9 +15,8 @@ export const useCategory = () => {
 }
 
 export const CategoryScope = ({ category, children }) => {
-  console.log(category)
   return (
-    <RecoilRoot initializeState={({ set }) => set(categoryState, category)}>
+    <RecoilRoot>
       {children}
     </RecoilRoot>
   )

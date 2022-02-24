@@ -39,17 +39,17 @@ module.exports = {
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options:{
+      options: {
         path: `${__dirname}/src/posts`,
         name: "posts",
-      }
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options:{
+      options: {
         path: `${__dirname}/static`,
-        name: "static"
-      }
+        name: "static",
+      },
     },
     {
       resolve: `gatsby-transformer-remark`,

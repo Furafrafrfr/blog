@@ -9,9 +9,6 @@ import { Article } from "../components/blog/Article"
 export default function Wrapper({ location, data }) {
   let frontmatter = data.markdownRemark.frontmatter
 
-  let initialCategory = new Map(
-    data.blogContext.category.map(key => [key, false])
-  )
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
   return (
@@ -19,7 +16,6 @@ export default function Wrapper({ location, data }) {
       pageData={{}}
       siteData={data.site.siteMetadata}
       avatar={data.file.childImageSharp.original}
-      initialCategory={initialCategory}
     >
       <Article frontmatter={frontmatter} html={data.markdownRemark.html} url={url}/>
     </App>
