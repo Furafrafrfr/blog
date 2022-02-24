@@ -69,7 +69,7 @@ exports.sourceNodes = async ({
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
 
-  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.js`)
+  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.jsx`)
 
   const result = await graphql(`
     query MyQuery {

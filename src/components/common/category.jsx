@@ -1,6 +1,6 @@
 import React from "react"
-import { useCategory } from "../category/categoryState"
-import { getMapKeys } from "../util/mapUtil"
+import { useCategory } from "../../hooks/categoryState"
+import { getMapKeys } from "../../util/mapUtil"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons"
 
@@ -32,17 +32,23 @@ export function SelectedCategoryList() {
   )
 }
 
-export function CategorySelector() {
+export function CategorySelector({ showAll }) {
   const [category, setCategory] = useCategory()
+
+  let key = showAll
+    ? getMapKeys(category)
+    : getMapKeys(category).filter(key => category.get(key))
+
   return (
-    <div className="category-list" style={{ marginTop: "15px" }}>
-      {getMapKeys(category).map((categoryKey, index) => (
+    <div className="category-list">
+      {key.map(key => (
         <CategoryButton
-          isActive={category.get(categoryKey)}
-          onClick={() => setCategory(categoryKey, !category.get(categoryKey))}
-          key={index}
+          category={key}
+          isActive={category.get(key)}
+          onClick={() => setCategory(key, !category.get(key))}
+          key={key}
         >
-          {categoryKey}
+          {key}
         </CategoryButton>
       ))}
     </div>
@@ -59,24 +65,25 @@ export function CategoryList({ category }) {
   )
 }
 
-function CategoryButton(props) {
+function CategoryButton({isActive, onClick, category}) {
   return (
     <button
       style={{
-        backgroundColor: props.isActive ? selectedBg : noSelectedBg,
-        color: props.isActive ? selectedCol : noSelectedCol,
+        backgroundColor: isActive ? selectedBg : noSelectedBg,
+        color: isActive ? selectedCol : noSelectedCol,
         border: `1px solid ${noSelectedCol}`,
         cursor: "pointer",
+        marginLeft: "3px"
       }}
-      onClick={() => props.onClick(props.category)}
+      onClick={() => onClick(category)}
     >
-      {props.isActive && (
+      {isActive && (
         <FontAwesomeIcon
           icon={faTimesCircle}
           style={{ opacity: "0.5", marginRight: "8px" }}
         />
       )}
-      {props.children}
+      {category}
     </button>
   )
 }

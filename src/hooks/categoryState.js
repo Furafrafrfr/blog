@@ -3,21 +3,19 @@ import React from "react"
 
 const categoryState = atom({ key: "categoryKey", default: new Map() })
 
-export function useCategory() {
+export const useCategory = () => {
   const [category, _setCategory] = useRecoilState(categoryState)
   const setCategory = (categoryKey, isSelected) =>
     _setCategory(new Map(category.set(categoryKey, isSelected)))
 
   const toggleCategory = categoryKey =>
-    _setCategory(new Map(category.set(categoryKey, !category.get(categoryKey))))
+    setCategory(categoryKey, !category.get(categoryKey))
 
-  return [
-    category,
-    setCategory,
-    toggleCategory,
-  ]
+  return [category, setCategory, toggleCategory]
 }
-export function CategoryScope({ category, children }) {
+
+export const CategoryScope = ({ category, children }) => {
+  console.log(category)
   return (
     <RecoilRoot initializeState={({ set }) => set(categoryState, category)}>
       {children}

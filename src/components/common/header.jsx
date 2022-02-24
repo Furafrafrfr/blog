@@ -9,11 +9,11 @@ import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
 import { CategorySelector } from "./category"
-import { useCategory } from "../category/categoryState"
+import { useCategory } from "../../hooks/categoryState"
 
 config.autoAddCss = false
 
-export default function Header() {
+export const Header = () => {
   const data = useStaticQuery(graphql`
     {
       allFile(filter: { name: { eq: "無題2" } }) {
@@ -95,7 +95,7 @@ function Category() {
         >
           リセット
         </button>
-        <CategorySelector />
+        <CategorySelector showAll/>
       </div>
     </section>
   )

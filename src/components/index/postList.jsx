@@ -1,10 +1,10 @@
 import React from "react"
 import { Link } from "gatsby"
-import { CategoryList } from "./category"
-import { useCategory } from "../category/categoryState"
-import { getMapKeys, getMapValues } from "../util/mapUtil"
+import { CategoryList } from "../common/category"
+import { useCategory } from "../../hooks/categoryState"
+import { getMapKeys, getMapValues } from "../../util/mapUtil"
 
-export default function PostList(props) {
+export const PostList = props => {
   let { posts } = props
 
   const [allCategory] = useCategory()
@@ -23,12 +23,7 @@ export default function PostList(props) {
         )
       )
       .map(({ node }) => {
-        return (
-          <Post
-            pageData={node.frontmatter}
-            key={node.frontmatter.slug}
-          />
-        )
+        return <Post pageData={node.frontmatter} key={node.frontmatter.slug} />
       })
   }
 }
