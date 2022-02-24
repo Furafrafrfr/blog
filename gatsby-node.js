@@ -6,8 +6,6 @@ const contentful = require("contentful")
 const fmParser = require("front-matter")
 const fs = require("fs")
 
-let env = process.env.NODE_ENV
-
 exports.sourceNodes = async ({
   actions,
   createNodeId,
@@ -35,7 +33,7 @@ exports.sourceNodes = async ({
     })
 
     //developmentのとき
-    if (env === "development") {
+    if (process.env.NODE_ENV === "development") {
       let postsPath = `${__dirname}/src/posts`
       let files = fs
         .readdirSync(postsPath)
@@ -94,7 +92,9 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     reporter.panicOnBuild(`Error while running GraphQL query.`)
     return
   }
-  if (env === "development") {
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("development build")
     result.data.allMarkdownRemark.edges.forEach(({ node }) => {
       createPage({
         path: node.frontmatter.slug,
@@ -105,9 +105,11 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         },
       })
     })
-  } else {
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      if (node.frontmatter.development == true) {
+  } else if (process.env.NODE_ENV === "production") {
+    console.log("production build")
+    result.data.allMarkdownRemark.edges
+      .filter(({ node }) => node.frontmatter.development !== true)
+      .forEach(({ node }) => {
         createPage({
           path: node.frontmatter.slug,
           component: blogPostTemplate,
@@ -116,7 +118,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
             slug: node.frontmatter.slug,
           },
         })
-      }
-    })
+      })
   }
 }

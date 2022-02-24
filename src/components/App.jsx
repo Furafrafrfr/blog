@@ -5,6 +5,7 @@ import { Head } from "./common/head"
 import { Header } from "./common/header"
 import { Footer } from "./common/footer"
 import { useCategory } from "../hooks/categoryState"
+import { getMapKeys } from "../util/mapUtil"
 
 export const App = ({ children, pageData, siteData, avatar }) => {
   const data = useStaticQuery(graphql`
@@ -16,7 +17,7 @@ export const App = ({ children, pageData, siteData, avatar }) => {
   `)
 
   const [category, setCategory] = useCategory()
-
+  
   useEffect(() => {
     if (category.size === 0) {
       data.blogContext.category.forEach(category =>
