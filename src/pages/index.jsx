@@ -1,20 +1,29 @@
 import React from "react"
 import { graphql } from "gatsby"
-import "../styles/style.css"
-import { App } from "../components/App"
-import { Index } from "../components/index/Index"
+import { useTheme } from "@mui/system"
+import { Box, Typography, useMediaQuery } from "@mui/material"
 
-const Home = ({ location, data }) => {
+import "../styles/style.css"
+import { CategoryDialog } from "../components/common/categoryDialog"
+import { Index } from "../components/index/Index"
+import { Head } from "../components/common/head"
+
+const Home = ({ data }) => {
   let posts = data.allMarkdownRemark.edges
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down("md"))
 
   return (
-    <App
-      pageData={{}}
-      siteData={data.site.siteMetadata}
-      avatar={data.file.childImageSharp.original}
-    >
+    <>
+      <Head
+        title={data.site.siteMetadata.title}
+        description={data.site.siteMetadata.description}
+        lang={data.site.siteMetadata.lang}
+        avatar={data.file.childImageSharp.original}
+      />
       <Index posts={posts} />
-    </App>
+      {matches && <CategoryDialog />}
+    </>
   )
 }
 
@@ -42,7 +51,7 @@ export const query = graphql`
         }
       }
     }
-    file(name: { eq: "newicon" }) {
+    file(name: { eq: "header_icon" }) {
       childImageSharp {
         original {
           src

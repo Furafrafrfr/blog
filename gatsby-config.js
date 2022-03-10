@@ -104,5 +104,7 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-twitter`,
+    `gatsby-plugin-material-ui`,
+    `gatsby-theme-material-ui`
   ],
 }

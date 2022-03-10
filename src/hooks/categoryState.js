@@ -1,7 +1,10 @@
 import { RecoilRoot, atom, useRecoilState } from "recoil"
 import React from "react"
 
-const categoryState = atom({ key: "categoryKey", default: new Map() })
+const categoryState = atom({
+  key: "categoryKey",
+  default: new Map(),
+})
 
 export const useCategory = () => {
   const [category, _setCategory] = useRecoilState(categoryState)
@@ -10,14 +13,10 @@ export const useCategory = () => {
 
   const toggleCategory = categoryKey =>
     setCategory(categoryKey, !category.get(categoryKey))
-
-  return [category, setCategory, toggleCategory]
+    
+  return { category, setCategory, toggleCategory }
 }
 
-export const CategoryScope = ({ category, children }) => {
-  return (
-    <RecoilRoot>
-      {children}
-    </RecoilRoot>
-  )
+export const CategoryScope = ({ children }) => {
+  return <RecoilRoot>{children}</RecoilRoot>
 }

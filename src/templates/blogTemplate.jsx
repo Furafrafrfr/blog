@@ -12,13 +12,11 @@ export default function Wrapper({ location, data }) {
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
   return (
-    <App
-      pageData={{}}
-      siteData={data.site.siteMetadata}
-      avatar={data.file.childImageSharp.original}
-    >
-      <Article frontmatter={frontmatter} html={data.markdownRemark.html} url={url}/>
-    </App>
+    <Article
+      frontmatter={frontmatter}
+      html={data.markdownRemark.html}
+      url={url}
+    />
   )
 }
 
@@ -32,7 +30,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    file(name: { eq: "newicon" }) {
+    file(name: { eq: "header_icon" }) {
       childImageSharp {
         original {
           src
@@ -49,9 +47,6 @@ export const pageQuery = graphql`
         date(formatString: "YYYY-MM-DD")
       }
       html
-    }
-    blogContext {
-      category
     }
   }
 `
