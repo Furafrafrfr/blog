@@ -8,17 +8,14 @@ import {
   Button,
   Fab,
 } from "@mui/material"
-import FilterListIcon from "@mui/icons-material/FilterList"
 import { CategorySelector } from "./category"
 
-export const CategoryDialog = () => {
-  const [openFilterDialog, setOpenFilterDialog] = useState(false)
+export const CategoryDialog = ({open, onClose}) => {
 
   return (
     <>
       <Dialog
-        open={openFilterDialog}
-        onClose={() => setOpenFilterDialog(false)}
+        open={open}
       >
         <DialogTitle>フィルタ</DialogTitle>
         <DialogContent>
@@ -26,29 +23,12 @@ export const CategoryDialog = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => {
-              setOpenFilterDialog(false)
-            }}
+            onClick={onClose}
           >
             done
           </Button>
         </DialogActions>
       </Dialog>
-      <Fab
-        color="primary"
-        onClick={() => {
-          setOpenFilterDialog(true)
-        }}
-        sx={{
-          position: "fixed",
-          bottom: 50,
-          right: 20,
-          left: "auto",
-          top: "auto",
-        }}
-      >
-        <FilterListIcon />
-      </Fab>
     </>
   )
 }

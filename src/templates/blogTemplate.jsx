@@ -3,20 +3,20 @@ import { graphql } from "gatsby"
 
 import "@fontsource/source-code-pro"
 
-import { App } from "../components/App"
 import { Article } from "../components/blog/Article"
 
-export default function Wrapper({ location, data }) {
+export default function BlogTemplate({ location, data }) {
   let frontmatter = data.markdownRemark.frontmatter
-
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
   return (
-    <Article
-      frontmatter={frontmatter}
-      html={data.markdownRemark.html}
-      url={url}
-    />
+    <>
+      <Article
+        frontmatter={frontmatter}
+        html={data.markdownRemark.html}
+        url={url}
+      />
+    </>
   )
 }
 

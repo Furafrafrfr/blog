@@ -1,15 +1,19 @@
-import React from "react"
+import React, { useState } from "react"
 import { graphql } from "gatsby"
 import { useTheme } from "@mui/system"
-import { Box, Typography, useMediaQuery } from "@mui/material"
+import {
+  useMediaQuery,
+} from "@mui/material"
 
 import "../styles/style.css"
 import { CategoryDialog } from "../components/common/categoryDialog"
 import { Index } from "../components/index/Index"
 import { Head } from "../components/common/head"
 
+
 const Home = ({ data }) => {
-  let posts = data.allMarkdownRemark.edges
+  const posts = data.allMarkdownRemark.edges
+  const [dialogOpen, setDialogOpen] = useState(false)
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down("md"))
 
@@ -21,8 +25,13 @@ const Home = ({ data }) => {
         lang={data.site.siteMetadata.lang}
         avatar={data.file.childImageSharp.original}
       />
-      <Index posts={posts} />
-      {matches && <CategoryDialog />}
+      <Index posts={posts} onFilterClick={()=>setDialogOpen(true)}/>
+      {matches && (
+        <CategoryDialog
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+        />
+      )}
     </>
   )
 }

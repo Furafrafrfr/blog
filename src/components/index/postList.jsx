@@ -1,9 +1,10 @@
 import React from "react"
-import { Link } from "gatsby-theme-material-ui"
+import { Link } from "gatsby"
 import { CategoryList } from "../common/category"
 import { useCategory } from "../../hooks/categoryState"
 import { getMapKeys, getMapValues } from "../../util/mapUtil"
-import { Card, Box, Typography } from "@mui/material"
+import { Card, Box, Typography, Collapse } from "@mui/material"
+import { TransitionGroup } from "react-transition-group"
 
 export const PostList = props => {
   let { posts } = props
@@ -24,14 +25,22 @@ export const PostList = props => {
     filteredPosts = posts
   }
 
-  return filteredPosts.map(post => (
-    <Post pageData={post.node.frontmatter} key={post.node.frontmatter.slug} />
-  ))
+  return (
+    <TransitionGroup>
+      {filteredPosts.map(post => (
+        <Collapse key={post.node.frontmatter.slug}>
+          <div>
+            <Post pageData={post.node.frontmatter} />
+          </div>
+        </Collapse>
+      ))}
+    </TransitionGroup>
+  )
 }
 
 const Post = ({ pageData }) => {
   return (
-    <Link to={pageData.slug} sx={{ textDecoration: "none" }}>
+    <Link to={pageData.slug} style={{ textDecoration: "none" }}>
       <Card
         sx={{
           minHeight: 175,
@@ -39,11 +48,13 @@ const Post = ({ pageData }) => {
           flexFlow: "column no-wrap",
           alignItems: "center",
           mb: 3,
-          mx: "auto"
+          mx: "auto",
         }}
       >
         <Box my={0} mx={3}>
-          <Typography component="h3" variant="h3s">{pageData.title}</Typography>
+          <Typography component="h3" variant="h3s">
+            {pageData.title}
+          </Typography>
           <Typography variant="body2">{pageData.date}</Typography>
           <CategoryList category={pageData.category} />
         </Box>

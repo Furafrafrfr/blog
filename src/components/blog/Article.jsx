@@ -1,9 +1,10 @@
 import React from "react"
-import { Link } from "gatsby-theme-material-ui"
+import { Button } from "gatsby-theme-material-ui"
 import "@fontsource/source-code-pro"
 
 import { CategoryList } from "../common/category"
 import { Typography, Box } from "@mui/material"
+import HomeIcon from "@mui/icons-material/Home"
 
 import { TwitterShareButton } from "../common/twitterButton"
 import { CopyTextButton } from "../common/copy"
@@ -12,11 +13,16 @@ export const Article = ({ frontmatter, html }) => {
   let url = `https://furafrafrfr.github.io/${frontmatter.slug}`
   return (
     <main>
-      <Link to="/" style={{ color: "black" }}>
-        Home
-      </Link>
+      <Box mb={1}>
+        <Button to="/" variant="text">
+          <HomeIcon />
+          Home
+        </Button>
+      </Box>
       <Box>
-        <Typography component="h2" variant="h2s">{frontmatter.title}</Typography>
+        <Typography component="h2" variant="h2s">
+          {frontmatter.title}
+        </Typography>
         <Typography variant="body2">{frontmatter.date}</Typography>
         <CategoryList category={frontmatter.category} />
       </Box>
@@ -34,10 +40,7 @@ export const Article = ({ frontmatter, html }) => {
           <Typography variant="body1">この投稿をシェア:</Typography>
         </Box>
         <Box mr={2}>
-          <TwitterShareButton
-            text={frontmatter.title}
-            url={url}
-          />
+          <TwitterShareButton text={frontmatter.title} url={url} />
         </Box>
         <Box>
           <CopyTextButton text={url} />
