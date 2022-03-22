@@ -83,7 +83,9 @@ export const App = ({ children }) => {
                 )}
               </div>
             </Box>
-            <Footer />
+            <Box display="flex" justifyContent="center">
+              <Footer />
+            </Box>
           </Box>
         </Paper>
       </Container>

@@ -49,6 +49,11 @@ const Post = ({ pageData }) => {
           alignItems: "center",
           mb: 3,
           mx: "auto",
+          transform: "translateY(0)",
+          transition: "transform 0.1s ease-out",
+          "&:hover": {
+            transform: "translateY(-10px)",
+          },
         }}
       >
         <Box my={0} mx={3}>

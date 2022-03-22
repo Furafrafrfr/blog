@@ -1,5 +1,5 @@
 import React from "react"
-import { GatsbyImage, getImage, getSrc } from "gatsby-plugin-image"
+import { getSrc } from "gatsby-plugin-image"
 import { graphql, useStaticQuery } from "gatsby"
 import { Box } from "@mui/system"
 

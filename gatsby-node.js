@@ -71,7 +71,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     query MyQuery {
-      allMarkdownRemark {
+      allMdx {
         edges {
           node {
             frontmatter {
@@ -79,7 +79,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               slug
               date(formatString: "YYYY-MM-DD")
               title
-              development
             }
           }
         }
@@ -93,31 +92,14 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("development build")
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      createPage({
-        path: node.frontmatter.slug,
-        component: blogPostTemplate,
-        context: {
-          // additional data can be passed via context
-          slug: node.frontmatter.slug,
-        },
-      })
+  result.data.allMdx.edges.forEach(({ node }) => {
+    createPage({
+      path: node.frontmatter.slug,
+      component: blogPostTemplate,
+      context: {
+        // additional data can be passed via context
+        slug: node.frontmatter.slug,
+      },
     })
-  } else if (process.env.NODE_ENV === "production") {
-    console.log("production build")
-    result.data.allMarkdownRemark.edges
-      .filter(({ node }) => node.frontmatter.development !== true)
-      .forEach(({ node }) => {
-        createPage({
-          path: node.frontmatter.slug,
-          component: blogPostTemplate,
-          context: {
-            // additional data can be passed via context
-            slug: node.frontmatter.slug,
-          },
-        })
-      })
-  }
+  })
 }

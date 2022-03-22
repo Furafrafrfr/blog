@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import {
   Dialog,
@@ -6,27 +6,29 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Fab,
 } from "@mui/material"
 import { CategorySelector } from "./category"
+import { useCategory } from "../../hooks/categoryState"
+import { getMapKeys } from "../../util/mapUtil"
 
-export const CategoryDialog = ({open, onClose}) => {
-
+export const CategoryDialog = ({ open, onClose }) => {
+  const { category, setCategory } = useCategory()
   return (
     <>
-      <Dialog
-        open={open}
-      >
+      <Dialog open={open}>
         <DialogTitle>フィルタ</DialogTitle>
         <DialogContent>
           <CategorySelector />
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={onClose}
+            onClick={() => {
+              getMapKeys(category).forEach(key => setCategory(key, false))
+            }}
           >
-            done
+            clear
           </Button>
+          <Button onClick={onClose}>done</Button>
         </DialogActions>
       </Dialog>
     </>

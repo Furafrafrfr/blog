@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { Button } from "gatsby-theme-material-ui"
+import { IconButton } from "gatsby-theme-material-ui"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 
 export const CopyTextButton = ({ text }) => {
@@ -15,20 +15,20 @@ export const CopyTextButton = ({ text }) => {
 
         setTimeout(() => {
           setCopied(false)
-        }, 500)
+        }, 1000)
       })
     }
   }, [copyNow])
 
   return (
-    <Button
-      variant={copied ? "contained" : "outlined"}
-      sx={{ width: "3rem", height: "3rem", p: 1, minWidth: 0 }}
-      onClick={() => {
-        setCopyNow(true)
-      }}
-    >
-      <ContentCopyIcon />
-    </Button>
+      <IconButton 
+        onClick={() => {
+          setCopyNow(true)
+        }}
+        color={copied ? "primary" : undefined}
+        sx={{transition:"color 0.25s"}}
+      >
+        <ContentCopyIcon fontSize="large" />
+      </IconButton>
   )
 }
