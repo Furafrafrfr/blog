@@ -3,22 +3,24 @@ import { graphql } from "gatsby"
 
 import "@fontsource/source-code-pro"
 
-import { App } from "../components/App"
 import { Article } from "../components/blog/Article"
+import { Head } from "../components/common/head"
 
-export default function Wrapper({ location, data }) {
-  let frontmatter = data.markdownRemark.frontmatter
-
+export default function BlogTemplate({ location, data }) {
+  let frontmatter = data.mdx.frontmatter
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
 
   return (
-    <App
-      pageData={{}}
-      siteData={data.site.siteMetadata}
-      avatar={data.file.childImageSharp.original}
-    >
-      <Article frontmatter={frontmatter} html={data.markdownRemark.html} url={url}/>
-    </App>
+    <>
+      <Head
+        title={frontmatter.title.concat("|ぐちろぐ")}
+        description={data.site.siteMetadata.description}
+        lang={data.site.siteMetadata.lang}
+        siteUrl={data.site.siteMetadata.siteUrl}
+        avatar={data.file.childImageSharp.original}
+      />
+      <Article frontmatter={frontmatter} body={data.mdx.body} url={url} />
+    </>
   )
 }
 
@@ -32,7 +34,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    file(name: { eq: "newicon" }) {
+    file(name: { eq: "header_icon" }) {
       childImageSharp {
         original {
           src
@@ -41,17 +43,14 @@ export const pageQuery = graphql`
         }
       }
     }
-    markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+    mdx(frontmatter: { slug: { eq: $slug } }) {
       frontmatter {
         category
         title
         slug
         date(formatString: "YYYY-MM-DD")
       }
-      html
-    }
-    blogContext {
-      category
+      body
     }
   }
 `

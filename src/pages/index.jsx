@@ -1,20 +1,38 @@
-import React from "react"
+import React, { useState } from "react"
 import { graphql } from "gatsby"
-import "../styles/style.css"
-import { App } from "../components/App"
-import { Index } from "../components/index/Index"
+import { useTheme } from "@mui/system"
+import {
+  useMediaQuery,
+} from "@mui/material"
 
-const Home = ({ location, data }) => {
-  let posts = data.allMarkdownRemark.edges
+import "../styles/style.css"
+import { CategoryDialog } from "../components/common/categoryDialog"
+import { Index } from "../components/index/Index"
+import { Head } from "../components/common/head"
+
+
+const Home = ({ data }) => {
+  const posts = data.allMdx.edges
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down("md"))
 
   return (
-    <App
-      pageData={{}}
-      siteData={data.site.siteMetadata}
-      avatar={data.file.childImageSharp.original}
-    >
-      <Index posts={posts} />
-    </App>
+    <>
+      <Head
+        title={data.site.siteMetadata.title}
+        description={data.site.siteMetadata.description}
+        lang={data.site.siteMetadata.lang}
+        avatar={data.file.childImageSharp.original}
+      />
+      <Index posts={posts} onFilterClick={()=>setDialogOpen(true)}/>
+      {matches && (
+        <CategoryDialog
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+        />
+      )}
+    </>
   )
 }
 
@@ -30,7 +48,7 @@ export const query = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    allMdx(sort: { fields: frontmatter___date, order: DESC }) {
       edges {
         node {
           frontmatter {
@@ -42,7 +60,7 @@ export const query = graphql`
         }
       }
     }
-    file(name: { eq: "newicon" }) {
+    file(name: { eq: "header_icon" }) {
       childImageSharp {
         original {
           src

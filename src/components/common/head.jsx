@@ -1,18 +1,11 @@
 import React from "react"
 import { Helmet } from "react-helmet"
 
-export const Head = ({ siteData, pageData, avatar }) => {
-  const title = pageData.title
-    ? `${pageData.title} | ${siteData.title}`
-    : siteData.title
-  const description = pageData.description || siteData.description
-  const siteUrl = pageData.route
-    ? `${siteData.siteUrl}${pageData.route}`
-    : siteData.siteUrl
+export const Head = ({ title, description, lang, siteUrl, avatar }) => {
 
   return (
     <Helmet>
-      <html lang={siteData.lang} />
+      <html lang={lang} />
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={siteUrl} />

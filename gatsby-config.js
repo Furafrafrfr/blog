@@ -7,8 +7,7 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
-
-module.exports = {
+let config = {
   /* Your site config here */
   siteMetadata: {
     title: "ぐちろぐ",
@@ -40,21 +39,14 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/src/posts`,
-        name: "posts",
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
         path: `${__dirname}/static`,
         name: "static",
       },
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-plugin-mdx`,
       options: {
-        plugins: [
+        gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-images-contentful`,
             options: {
@@ -104,5 +96,19 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-twitter`,
+    `gatsby-plugin-material-ui`,
+    `gatsby-theme-material-ui`,
   ],
 }
+
+if (process.env.NODE_ENV === "development") {
+  config.plugins.push({
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      path: `${__dirname}/src/posts`,
+      name: "posts",
+    },
+  })
+}
+
+module.exports = config

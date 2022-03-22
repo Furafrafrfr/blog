@@ -1,41 +1,24 @@
 import React from "react"
-import { CategorySelector } from "../common/category"
+import { Typography, useMediaQuery } from "@mui/material"
+import { Box } from "@mui/system"
 import { PostList } from "./postList"
-import { useCategory } from "../../hooks/categoryState"
-import { getMapValues } from "../../util/mapUtil"
+import { useTheme } from "@mui/material"
+import { Button } from "gatsby-theme-material-ui"
 
-export const Index = ({ posts }) => {
-  const [category] = useCategory()
+export const Index = ({ posts, onFilterClick }) => {
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.up("md"))
   return (
-    <main className="blog-posts">
-      <h2>投稿</h2>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginBottom: "1rem",
-          width: "100%",
-        }}
-      >
-        <div style={{ flexShrink: "0" }}>カテゴリー:</div>
-        <div style={{ display: "flex", flexDirection: "row", flexGrow: "1" }}>
-          {getMapValues(category).some(isSelected => isSelected) ? (
-            <CategorySelector />
-          ) : (
-            <div
-              style={{
-                color: "grey",
-                margin: "0px 3px",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              カテゴリーが選択されていません
-            </div>
-          )}
-        </div>
-      </div>
-      <PostList posts={posts} />
-    </main>
+    <>
+      <Box display="flex" justifyContent="space-between">
+        <Typography component="h2" variant="h2s" my={1}>
+          投稿
+        </Typography>
+        <div>{matches || <Button variant="outlined" onClick={onFilterClick}>フィルタ</Button>}</div>
+      </Box>
+      <Box>
+        <PostList posts={posts} />
+      </Box>
+    </>
   )
 }
