@@ -9,7 +9,7 @@ import {
 } from "@mui/material"
 
 const P = ({ children }) => (
-  <Typography component="p" variant="body1" color="#424242">
+  <Typography component="p" variant="body1" color="#424242" my="1rem">
     {children}
   </Typography>
 )

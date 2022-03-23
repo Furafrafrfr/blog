@@ -91,7 +91,7 @@ let config = {
         background_color: `#ffffff`,
         theme_color: `#939393`,
         display: `standalone`,
-        icon: `static/unnamed.png`,
+        icon: `static/icon.png`,
       },
     },
     `gatsby-plugin-offline`,
