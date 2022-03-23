@@ -62,33 +62,35 @@ export const App = ({ children }) => {
 
   return (
     <>
-      <Container>
-        <Paper sx={{ maxWidth: "lg" }}>
-          <div id="scroll-top-anchor" />
-          <GatsbyImage image={headerImage} alt="aaa" />
-          <Box width="90%" m="auto">
-            <Header />
-            <Box display="flex" justifyContent="space-between">
-              <Box width={width}>
-                <div>{children}</div>
+      <Box w="100vw">
+        <Container fixed>
+          <Paper sx={{ maxWidth: "lg", pb:2}}>
+            <div id="scroll-top-anchor" />
+            <GatsbyImage image={headerImage} alt="aaa" />
+            <Box width="90%" m="auto">
+              <Header />
+              <Box display="flex" justifyContent="space-between">
+                <Box width={width}>
+                  <div>{children}</div>
+                </Box>
+                <div>
+                  {matches || (
+                    <Box component="nav">
+                      <Typography component="h2" variant="h2s" my={1}>
+                        カテゴリ
+                      </Typography>
+                      <CategorySelector />
+                    </Box>
+                  )}
+                </div>
               </Box>
-              <div>
-                {matches || (
-                  <Box component="nav">
-                    <Typography component="h2" variant="h2s" my={1}>
-                      カテゴリ
-                    </Typography>
-                    <CategorySelector />
-                  </Box>
-                )}
-              </div>
+              <Box display="flex" justifyContent="center">
+                <Footer />
+              </Box>
             </Box>
-            <Box display="flex" justifyContent="center">
-              <Footer />
-            </Box>
-          </Box>
-        </Paper>
-      </Container>
+          </Paper>
+        </Container>
+      </Box>
       <Fab
         color="primary"
         sx={{ position: "fixed", bottom: fabBottom, right: fabRight }}
