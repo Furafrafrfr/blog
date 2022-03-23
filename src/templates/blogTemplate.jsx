@@ -17,7 +17,8 @@ export default function BlogTemplate({ location, data }) {
         description={data.site.siteMetadata.description}
         lang={data.site.siteMetadata.lang}
         siteUrl={data.site.siteMetadata.siteUrl}
-        avatar={data.file.childImageSharp.original}
+        pageUrl={url}
+        avatar={data.file}
       />
       <Article frontmatter={frontmatter} body={data.mdx.body} url={url} />
     </>
@@ -36,11 +37,7 @@ export const pageQuery = graphql`
     }
     file(name: { eq: "header_icon" }) {
       childImageSharp {
-        original {
-          src
-          width
-          height
-        }
+        gatsbyImageData(height: 600, width: 600)
       }
     }
     mdx(frontmatter: { slug: { eq: $slug } }) {

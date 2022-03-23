@@ -1,15 +1,12 @@
 import React, { useState } from "react"
 import { graphql } from "gatsby"
 import { useTheme } from "@mui/system"
-import {
-  useMediaQuery,
-} from "@mui/material"
+import { useMediaQuery } from "@mui/material"
 
 import "../styles/style.css"
 import { CategoryDialog } from "../components/common/categoryDialog"
 import { Index } from "../components/index/Index"
 import { Head } from "../components/common/head"
-
 
 const Home = ({ data }) => {
   const posts = data.allMdx.edges
@@ -23,9 +20,11 @@ const Home = ({ data }) => {
         title={data.site.siteMetadata.title}
         description={data.site.siteMetadata.description}
         lang={data.site.siteMetadata.lang}
-        avatar={data.file.childImageSharp.original}
+        siteUrl={data.site.siteMetadata.siteUrl}
+        pageUrl={data.site.siteMetadata.siteUrl}
+        avatar={data.file}
       />
-      <Index posts={posts} onFilterClick={()=>setDialogOpen(true)}/>
+      <Index posts={posts} onFilterClick={() => setDialogOpen(true)} />
       {matches && (
         <CategoryDialog
           open={dialogOpen}
@@ -62,11 +61,7 @@ export const query = graphql`
     }
     file(name: { eq: "header_icon" }) {
       childImageSharp {
-        original {
-          src
-          width
-          height
-        }
+        gatsbyImageData(height: 600, width: 600)
       }
     }
   }
