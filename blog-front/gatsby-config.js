@@ -43,16 +43,6 @@ let config = {
         name: "static",
       },
     },
-
-    {
-      resolve: `gatsby-source-github-api`,
-      option: {
-        token: process.env.MD_REPO_TOKEN,
-        variables: {
-          q: process.env.MD_REPO
-        },
-      },
-    },
     {
       resolve: `gatsby-transformer-remark`,
       options: {

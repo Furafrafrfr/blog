@@ -44,7 +44,6 @@
     "gatsby-remark-prismjs": "^6.2.0",
     "gatsby-source-contentful": "^7.0.0",
     "gatsby-source-filesystem": "^4.2.0",
-    "gatsby-source-github-api": "^1.0.0",
     "gatsby-theme-material-ui": "^5.1.0",
     "gatsby-transformer-remark": "^5.24.0",
     "gatsby-transformer-sharp": "^4.8.0",
