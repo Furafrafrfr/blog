@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 import {
   Dialog,
@@ -6,13 +6,13 @@ import {
   DialogContent,
   DialogActions,
   Button,
-} from "@mui/material"
-import { CategorySelector } from "./category"
-import { useCategory } from "../../hooks/categoryState"
-import { getMapKeys } from "../../util/mapUtil"
+} from "@mui/material";
+import { CategorySelector } from "./category";
+import { useCategory } from "../../hooks/categoryState";
+import { getMapKeys } from "../../util/mapUtil";
 
 export const CategoryDialog = ({ open, onClose }) => {
-  const { category, setCategory } = useCategory()
+  const { category, setCategory } = useCategory();
   return (
     <>
       <Dialog open={open}>
@@ -23,7 +23,7 @@ export const CategoryDialog = ({ open, onClose }) => {
         <DialogActions>
           <Button
             onClick={() => {
-              getMapKeys(category).forEach(key => setCategory(key, false))
+              getMapKeys(category).forEach((key) => setCategory(key, false));
             }}
           >
             clear
@@ -32,5 +32,5 @@ export const CategoryDialog = ({ open, onClose }) => {
         </DialogActions>
       </Dialog>
     </>
-  )
-}
+  );
+};

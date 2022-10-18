@@ -1,55 +1,57 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
+});
 
-const contentful = require("contentful")
-const fmParser = require("front-matter")
-const fs = require("fs")
+const contentful = require("contentful");
+const fmParser = require("front-matter");
+const fs = require("fs");
 
 exports.sourceNodes = async ({
   actions,
   createNodeId,
   createContentDigest,
 }) => {
-  const { createNode } = actions
+  const { createNode } = actions;
 
   //contentfulから記事取得
   let client = contentful.createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
     accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  })
+  });
 
-  let entries = await client.getEntries({ content_type: "blogPostV2" })
+  let entries = await client.getEntries({ content_type: "blogPostV2" });
   if (entries.errors) {
-    console.log(errors)
+    console.log(errors);
   } else {
     //使われているカテゴリを抜き出す
-    let categories = new Map()
+    let categories = new Map();
     entries.items.forEach(({ fields: { content } }) => {
       let {
         attributes: { category },
-      } = fmParser(content)
-      category.forEach(str => categories.set(str, false))
-    })
+      } = fmParser(content);
+      category.forEach((str) => categories.set(str, false));
+    });
 
     //developmentのとき
     if (process.env.NODE_ENV === "development") {
-      let postsPath = `${__dirname}/src/posts`
+      let postsPath = `${__dirname}/src/posts`;
       let files = fs
         .readdirSync(postsPath)
-        .filter(fileOrDir => fs.statSync(`${postsPath}/${fileOrDir}`).isFile())
-      files.forEach(fileName => {
+        .filter((fileOrDir) =>
+          fs.statSync(`${postsPath}/${fileOrDir}`).isFile()
+        );
+      files.forEach((fileName) => {
         let file = fs.readFileSync(`${postsPath}/${fileName}`, {
           encoding: "utf-8",
-        })
+        });
         let {
           attributes: { category },
-        } = fmParser(file)
-        category.forEach(str => categories.set(str, false))
-      })
+        } = fmParser(file);
+        category.forEach((str) => categories.set(str, false));
+      });
     }
 
-    let data = { category: Array.from(categories.keys()) }
+    let data = { category: Array.from(categories.keys()) };
 
     createNode({
       ...data,
@@ -59,15 +61,15 @@ exports.sourceNodes = async ({
         type: "BlogContext",
         contentDigest: createContentDigest(data),
       },
-    })
+    });
   }
-}
+};
 
 //記事ページ生成
 exports.createPages = async ({ actions, graphql, reporter }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
-  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.jsx`)
+  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.jsx`);
 
   const result = await graphql(`
     query MyQuery {
@@ -84,12 +86,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         }
       }
     }
-  `)
+  `);
 
   // Handle errors
   if (result.errors) {
-    reporter.panicOnBuild(`Error while running GraphQL query.`)
-    return
+    reporter.panicOnBuild(`Error while running GraphQL query.`);
+    return;
   }
 
   result.data.allMdx.edges.forEach(({ node }) => {
@@ -100,6 +102,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         // additional data can be passed via context
         slug: node.frontmatter.slug,
       },
-    })
-  })
-}
+    });
+  });
+};

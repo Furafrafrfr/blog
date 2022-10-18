@@ -1,16 +1,16 @@
-import React from "react"
-import { Button } from "gatsby-theme-material-ui"
-import { MDXRenderer } from "gatsby-plugin-mdx"
-import "@fontsource/source-code-pro"
+import React from "react";
+import { Button } from "gatsby-theme-material-ui";
+import { MDXRenderer } from "gatsby-plugin-mdx";
+import "@fontsource/source-code-pro";
 
-import { CategoryList } from "../common/category"
-import { Typography, Box } from "@mui/material"
-import HomeIcon from "@mui/icons-material/Home"
+import { CategoryList } from "../common/category";
+import { Typography, Box } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
 
-import { ShareButtons } from "../common/shareButtons"
+import { ShareButtons } from "../common/shareButtons";
 
 export const Article = ({ frontmatter, body }) => {
-  let url = `https://furafrafrfr.github.io${frontmatter.slug}`
+  let url = `https://furafrafrfr.github.io${frontmatter.slug}`;
   return (
     <main>
       <Box mb={1}>
@@ -36,5 +36,5 @@ export const Article = ({ frontmatter, body }) => {
         />
       </Box>
     </main>
-  )
-}
+  );
+};

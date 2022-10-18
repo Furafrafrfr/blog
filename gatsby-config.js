@@ -6,7 +6,7 @@
 
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
+});
 let config = {
   /* Your site config here */
   siteMetadata: {
@@ -99,7 +99,7 @@ let config = {
     `gatsby-plugin-material-ui`,
     `gatsby-theme-material-ui`,
   ],
-}
+};
 
 if (process.env.NODE_ENV === "development") {
   config.plugins.push({
@@ -108,7 +108,7 @@ if (process.env.NODE_ENV === "development") {
       path: `${__dirname}/src/posts`,
       name: "posts",
     },
-  })
+  });
 }
 
-module.exports = config
+module.exports = config;

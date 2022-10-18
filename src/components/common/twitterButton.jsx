@@ -1,6 +1,6 @@
-import React from "react"
-import TwitterIcon from "@mui/icons-material/Twitter"
-import { IconButton } from "gatsby-theme-material-ui"
+import React from "react";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import { IconButton } from "gatsby-theme-material-ui";
 
 export const TwitterShareButton = ({ text, url, hashtags, via }) => {
   return (
@@ -13,7 +13,7 @@ export const TwitterShareButton = ({ text, url, hashtags, via }) => {
       }${via !== undefined ? `&via=${via}` : ""}`}
       color="twitterBlue"
     >
-      <TwitterIcon fontSize="large"/>
+      <TwitterIcon fontSize="large" />
     </IconButton>
-  )
-}
+  );
+};

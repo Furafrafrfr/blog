@@ -1,14 +1,14 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from "react";
+import { graphql } from "gatsby";
 
-import "@fontsource/source-code-pro"
+import "@fontsource/source-code-pro";
 
-import { Article } from "../components/blog/Article"
-import { Head } from "../components/common/head"
+import { Article } from "../components/blog/Article";
+import { Head } from "../components/common/head";
 
 export default function BlogTemplate({ location, data }) {
-  let frontmatter = data.mdx.frontmatter
-  let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`
+  let frontmatter = data.mdx.frontmatter;
+  let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`;
 
   return (
     <>
@@ -22,7 +22,7 @@ export default function BlogTemplate({ location, data }) {
       />
       <Article frontmatter={frontmatter} body={data.mdx.body} url={url} />
     </>
-  )
+  );
 }
 
 export const pageQuery = graphql`
@@ -50,4 +50,4 @@ export const pageQuery = graphql`
       body
     }
   }
-`
+`;

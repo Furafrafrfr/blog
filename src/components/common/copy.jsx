@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import { IconButton } from "gatsby-theme-material-ui"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
+import { IconButton } from "gatsby-theme-material-ui";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 export const CopyTextButton = ({ text }) => {
-  const [copyNow, setCopyNow] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [copyNow, setCopyNow] = useState(false);
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
     if (copyNow) {
-      console.log(text)
+      console.log(text);
       navigator.clipboard.writeText(text).then(() => {
-        setCopyNow(false)
-        setCopied(true)
+        setCopyNow(false);
+        setCopied(true);
 
         setTimeout(() => {
-          setCopied(false)
-        }, 1000)
-      })
+          setCopied(false);
+        }, 1000);
+      });
     }
-  }, [copyNow])
+  }, [copyNow]);
 
   return (
-      <IconButton 
-        onClick={() => {
-          setCopyNow(true)
-        }}
-        color={copied ? "primary" : undefined}
-        sx={{transition:"color 0.25s"}}
-      >
-        <ContentCopyIcon fontSize="large" />
-      </IconButton>
-  )
-}
+    <IconButton
+      onClick={() => {
+        setCopyNow(true);
+      }}
+      color={copied ? "primary" : undefined}
+      sx={{ transition: "color 0.25s" }}
+    >
+      <ContentCopyIcon fontSize="large" />
+    </IconButton>
+  );
+};

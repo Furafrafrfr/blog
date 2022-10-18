@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import { getImage, GatsbyImage } from "gatsby-plugin-image"
+import React, { useEffect } from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import { getImage, GatsbyImage } from "gatsby-plugin-image";
 import {
   Container,
   Paper,
@@ -8,15 +8,15 @@ import {
   Fab,
   useMediaQuery,
   useTheme,
-} from "@mui/material"
-import { Box } from "@mui/system"
-import { KeyboardArrowUp } from "@mui/icons-material"
+} from "@mui/material";
+import { Box } from "@mui/system";
+import { KeyboardArrowUp } from "@mui/icons-material";
 
-import { Header } from "./common/header"
-import { Footer } from "./common/footer"
-import { useCategory } from "../hooks/categoryState"
-import { CategorySelector } from "./common/category"
-import { backToTop } from "../util/backToTop"
+import { Header } from "./common/header";
+import { Footer } from "./common/footer";
+import { useCategory } from "../hooks/categoryState";
+import { CategorySelector } from "./common/category";
+import { backToTop } from "../util/backToTop";
 
 export const App = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -35,36 +35,36 @@ export const App = ({ children }) => {
         }
       }
     }
-  `)
+  `);
 
-  const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down("md"))
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
 
-  let fabBottom = matches ? 16 : 32
-  let fabRight = matches ? 16 : 64
+  let fabBottom = matches ? 16 : 32;
+  let fabRight = matches ? 16 : 64;
 
-  const { category, setCategory } = useCategory()
+  const { category, setCategory } = useCategory();
 
   const headerImage = getImage(
     data.allFile.edges.filter(({ node }) => node.name === "header_image")[0]
       .node
-  )
+  );
 
   useEffect(() => {
     if (category.size === 0) {
-      data.blogContext.category.forEach(category =>
+      data.blogContext.category.forEach((category) =>
         setCategory(category, false)
-      )
+      );
     }
-  }, [])
+  }, []);
 
-  let width = matches ? "100%" : "70%"
+  let width = matches ? "100%" : "70%";
 
   return (
     <>
       <Box w="100vw">
         <Container fixed>
-          <Paper sx={{ maxWidth: "lg", pb:2}}>
+          <Paper sx={{ maxWidth: "lg", pb: 2 }}>
             <div id="scroll-top-anchor" />
             <GatsbyImage image={headerImage} alt="aaa" />
             <Box width="90%" m="auto">
@@ -99,5 +99,5 @@ export const App = ({ children }) => {
         <KeyboardArrowUp />
       </Fab>
     </>
-  )
-}
+  );
+};

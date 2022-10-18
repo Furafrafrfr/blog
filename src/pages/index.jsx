@@ -1,18 +1,18 @@
-import React, { useState } from "react"
-import { graphql } from "gatsby"
-import { useTheme } from "@mui/system"
-import { useMediaQuery } from "@mui/material"
+import React, { useState } from "react";
+import { graphql } from "gatsby";
+import { useTheme } from "@mui/system";
+import { useMediaQuery } from "@mui/material";
 
-import "../styles/style.css"
-import { CategoryDialog } from "../components/common/categoryDialog"
-import { Index } from "../components/index/Index"
-import { Head } from "../components/common/head"
+import "../styles/style.css";
+import { CategoryDialog } from "../components/common/categoryDialog";
+import { Index } from "../components/index/Index";
+import { Head } from "../components/common/head";
 
 const Home = ({ data }) => {
-  const posts = data.allMdx.edges
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down("md"))
+  const posts = data.allMdx.edges;
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <>
@@ -32,10 +32,10 @@ const Home = ({ data }) => {
         />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 export const query = graphql`
   query MyQuery {
@@ -65,4 +65,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

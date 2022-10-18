@@ -1,6 +1,6 @@
-import React from "react"
-import { Helmet } from "react-helmet"
-import { getSrc } from "gatsby-plugin-image"
+import React from "react";
+import { Helmet } from "react-helmet";
+import { getSrc } from "gatsby-plugin-image";
 
 export const Head = ({
   title,
@@ -24,5 +24,5 @@ export const Head = ({
       <meta name="og:images:type" content="image/png" />
       <meta name="twitter:card" content="summary" />
     </Helmet>
-  )
-}
+  );
+};
