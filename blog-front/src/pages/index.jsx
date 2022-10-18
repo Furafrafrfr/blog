@@ -9,7 +9,7 @@ import { Index } from "../components/index/Index";
 import { Head } from "../components/common/head";
 
 const Home = ({ data }) => {
-  const posts = data.allMdx.edges;
+  const posts = data.allMarkdownRemark.edges;
   const [dialogOpen, setDialogOpen] = useState(false);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -47,7 +47,7 @@ export const query = graphql`
         title
       }
     }
-    allMdx(sort: { fields: frontmatter___date, order: DESC }) {
+    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
       edges {
         node {
           frontmatter {

@@ -43,10 +43,20 @@ let config = {
         name: "static",
       },
     },
+
     {
-      resolve: `gatsby-plugin-mdx`,
+      resolve: `gatsby-source-github-api`,
+      option: {
+        token: process.env.MD_REPO_TOKEN,
+        variables: {
+          q: process.env.MD_REPO
+        },
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
       options: {
-        gatsbyRemarkPlugins: [
+        plugins: [
           {
             resolve: `gatsby-remark-images-contentful`,
             options: {

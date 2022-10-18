@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "gatsby-theme-material-ui";
-import { MDXRenderer } from "gatsby-plugin-mdx";
 import "@fontsource/source-code-pro";
 
 import { CategoryList } from "../common/category";
@@ -9,7 +8,7 @@ import HomeIcon from "@mui/icons-material/Home";
 
 import { ShareButtons } from "../common/shareButtons";
 
-export const Article = ({ frontmatter, body }) => {
+export const Article = ({ frontmatter, html }) => {
   let url = `https://furafrafrfr.github.io${frontmatter.slug}`;
   return (
     <main>
@@ -27,7 +26,7 @@ export const Article = ({ frontmatter, body }) => {
         <CategoryList category={frontmatter.category} />
       </Box>
       <Box component="main">
-        <MDXRenderer>{body}</MDXRenderer>
+        <div dangerouslySetInnerHTML={{__html:html}}></div>
       </Box>
       <Box justifyContent="left" my={1}>
         <ShareButtons

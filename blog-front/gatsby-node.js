@@ -73,7 +73,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     query MyQuery {
-      allMdx {
+      allMarkdownRemark {
         edges {
           node {
             frontmatter {
@@ -94,7 +94,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
 
-  result.data.allMdx.edges.forEach(({ node }) => {
+  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
     createPage({
       path: node.frontmatter.slug,
       component: blogPostTemplate,

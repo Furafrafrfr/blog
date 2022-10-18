@@ -7,7 +7,7 @@ import { Article } from "../components/blog/Article";
 import { Head } from "../components/common/head";
 
 export default function BlogTemplate({ location, data }) {
-  let frontmatter = data.mdx.frontmatter;
+  let frontmatter = data.markdownRemark.frontmatter;
   let url = `${data.site.siteMetadata.siteUrl}${location.pathname}`;
 
   return (
@@ -20,7 +20,7 @@ export default function BlogTemplate({ location, data }) {
         pageUrl={url}
         avatar={data.file}
       />
-      <Article frontmatter={frontmatter} body={data.mdx.body} url={url} />
+      <Article frontmatter={frontmatter} html={data.markdownRemark.html} url={url} />
     </>
   );
 }
@@ -40,14 +40,14 @@ export const pageQuery = graphql`
         gatsbyImageData(height: 600, width: 600)
       }
     }
-    mdx(frontmatter: { slug: { eq: $slug } }) {
+    markdownRemark(frontmatter: { slug: { eq: $slug } }) {
       frontmatter {
         category
         title
         slug
         date(formatString: "YYYY-MM-DD")
       }
-      body
+      html
     }
   }
 `;
