@@ -1,22 +1,16 @@
 import React from "react";
-import { Button } from "gatsby-theme-material-ui";
 import "@fontsource/source-code-pro";
-
 import { CategoryList } from "../common/category";
 import { Typography, Box } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-
 import { ShareButtons } from "../common/shareButtons";
+import { HomeButton } from "../common/homeButon";
 
 export const Article = ({ frontmatter, html }) => {
   let url = `https://furafrafrfr.github.io${frontmatter.slug}`;
   return (
     <main>
-      <Box mb={1}>
-        <Button to="/" variant="text">
-          <HomeIcon />
-          Home
-        </Button>
+      <Box mb={1} sx={{ display: "flex", justifyContent: 'flex-end' }}>
+        <HomeButton />
       </Box>
       <Box>
         <Typography component="h2" variant="h2s">
@@ -26,7 +20,7 @@ export const Article = ({ frontmatter, html }) => {
         <CategoryList category={frontmatter.category} />
       </Box>
       <Box component="main">
-        <div dangerouslySetInnerHTML={{__html:html}}></div>
+        <div dangerouslySetInnerHTML={{ __html: html }}></div>
       </Box>
       <Box justifyContent="left" my={1}>
         <ShareButtons

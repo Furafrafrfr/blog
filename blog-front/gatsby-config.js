@@ -39,24 +39,14 @@ let config = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/static`,
-        name: "static",
+        path: `${__dirname}/../content`,
+        name: "content",
       },
     },
     {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
-          {
-            resolve: `gatsby-remark-images-contentful`,
-            options: {
-              maxWidth: 600,
-              linkImagesToOriginal: true,
-              withWebp: true,
-              sizeByPixelDensity: true,
-              wrapperStyle: "margin:1rem auto;",
-            },
-          },
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
@@ -73,14 +63,6 @@ let config = {
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
-    {
-      resolve: `gatsby-source-contentful`,
-      options: {
-        spaceId: process.env.CONTENTFUL_SPACE_ID,
-        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-        host: process.env.CONTENTFUL_HOST,
-      },
-    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-manifest`,
@@ -100,15 +82,5 @@ let config = {
     `gatsby-theme-material-ui`,
   ],
 };
-
-if (process.env.NODE_ENV === "development") {
-  config.plugins.push({
-    resolve: `gatsby-source-filesystem`,
-    options: {
-      path: `${__dirname}/src/posts`,
-      name: "posts",
-    },
-  });
-}
 
 module.exports = config;

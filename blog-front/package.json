@@ -6,10 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "dev": "gatsby develop",
     "devhost": "gatsby develop --host 192.168.3.12",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
@@ -58,13 +57,13 @@
     "ws": "7.4.6"
   },
   "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-plugin-react": "^7.31.10",
     "prettier": "2.2.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
-  },
+  "repository": "https://github.com/gatsbyjs/gatsby-starter-hello-world",
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
-  }
+  },
+  "main": "index.js"
 }

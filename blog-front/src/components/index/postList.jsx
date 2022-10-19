@@ -1,68 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "gatsby";
 import { CategoryList } from "../common/category";
-import { useCategory } from "../../hooks/categoryState";
-import { getMapKeys, getMapValues } from "../../util/mapUtil";
 import { Card, Box, Typography, Collapse } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
 
 export const PostList = (props) => {
   let { posts } = props;
 
-  const { category } = useCategory();
-
-  //選択されているカテゴリが全てカテゴリに含まれている記事をfilter()で探す。何も選択されてない場合は全部表示。
-  //それをmap()でPostにする
-  let filteredPosts = [];
-  if (getMapValues(category).some((val) => val === true)) {
-    let selectedCategory = getMapKeys(category).filter((key) =>
-      category.get(key)
-    );
-    filteredPosts = posts.filter(({ node }) =>
-      selectedCategory.every((selected) =>
-        node.frontmatter.category.includes(selected)
-      )
-    );
-  } else {
-    filteredPosts = posts;
-  }
-
-  return (
-    <TransitionGroup>
-      {filteredPosts.map((post) => (
-        <Collapse key={post.node.frontmatter.slug}>
-          <div>
-            <Post pageData={post.node.frontmatter} />
-          </div>
-        </Collapse>
-      ))}
-    </TransitionGroup>
-  );
+  return posts.map((post) => <Post key={post.node.frontmatter.slug} pageData={post.node.frontmatter} />);
 };
 
 const Post = ({ pageData }) => {
+  const [mouseEnter, setMouseEnter] = useState(false);
+
   return (
     <Link to={pageData.slug} style={{ textDecoration: "none" }}>
       <Card
         sx={{
-          minHeight: 175,
           display: "flex",
           flexFlow: "column no-wrap",
           alignItems: "center",
           mb: 3,
           mx: "auto",
-          transform: "translateY(0)",
-          transition: "transform 0.1s ease-out",
-          "&:hover": {
-            transform: "translateY(-10px)",
-          },
         }}
+        raised={mouseEnter}
+        onMouseEnter={() => setMouseEnter(true)}
+        onMouseLeave={() => setMouseEnter(false)}
       >
-        <Box my={0} mx={3}>
-          <Typography component="h3" variant="h3s">
+        <Box my={0} mx={3} py={3}>
+          <Typography component="h3" variant="h3s" mb={1}>
             {pageData.title}
           </Typography>
-          <Typography variant="body2">{pageData.date}</Typography>
+          <Box mb={1}>
+            <Typography component="date" variant="body2">
+              {pageData.date}
+            </Typography>
+          </Box>
           <CategoryList category={pageData.category} />
         </Box>
       </Card>

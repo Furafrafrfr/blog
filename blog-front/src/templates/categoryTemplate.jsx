@@ -1,11 +1,9 @@
 import React from "react";
-import { graphql } from "gatsby";
-
-import "../styles/style.css";
-import { Index } from "../components/index/Index";
 import { Head } from "../components/common/head";
+import { graphql } from "gatsby";
+import { CategoryPage } from "../components/category/categoryPage";
 
-const Home = ({ data }) => {
+const CategoryTemplate = ({ data, pageContext }) => {
   const posts = data.allMarkdownRemark.edges;
 
   return (
@@ -18,15 +16,14 @@ const Home = ({ data }) => {
         pageUrl={data.site.siteMetadata.siteUrl}
         avatar={data.file}
       />
-      <Index posts={posts} />
+      <CategoryPage posts={posts} category={pageContext.category}/>
+
     </>
   );
 };
 
-export default Home;
-
 export const query = graphql`
-  query MyQuery {
+  query ($category: [String]) {
     site {
       siteMetadata {
         siteUrl
@@ -35,7 +32,7 @@ export const query = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }, filter: {frontmatter: {category: {in: $category}}}) {
       edges {
         node {
           frontmatter {
@@ -54,3 +51,5 @@ export const query = graphql`
     }
   }
 `;
+
+export default CategoryTemplate;

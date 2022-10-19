@@ -2,75 +2,12 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
-const contentful = require("contentful");
-const fmParser = require("front-matter");
-const fs = require("fs");
+const pathCreator = require("./src/util/createCategoryPath");
 
-exports.sourceNodes = async ({
-  actions,
-  createNodeId,
-  createContentDigest,
-}) => {
-  const { createNode } = actions;
-
-  //contentfulから記事取得
-  let client = contentful.createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  });
-
-  let entries = await client.getEntries({ content_type: "blogPostV2" });
-  if (entries.errors) {
-    console.log(errors);
-  } else {
-    //使われているカテゴリを抜き出す
-    let categories = new Map();
-    entries.items.forEach(({ fields: { content } }) => {
-      let {
-        attributes: { category },
-      } = fmParser(content);
-      category.forEach((str) => categories.set(str, false));
-    });
-
-    //developmentのとき
-    if (process.env.NODE_ENV === "development") {
-      let postsPath = `${__dirname}/src/posts`;
-      let files = fs
-        .readdirSync(postsPath)
-        .filter((fileOrDir) =>
-          fs.statSync(`${postsPath}/${fileOrDir}`).isFile()
-        );
-      files.forEach((fileName) => {
-        let file = fs.readFileSync(`${postsPath}/${fileName}`, {
-          encoding: "utf-8",
-        });
-        let {
-          attributes: { category },
-        } = fmParser(file);
-        category.forEach((str) => categories.set(str, false));
-      });
-    }
-
-    let data = { category: Array.from(categories.keys()) };
-
-    createNode({
-      ...data,
-      id: createNodeId(`blog-category-data`),
-      children: [],
-      internal: {
-        type: "BlogContext",
-        contentDigest: createContentDigest(data),
-      },
-    });
-  }
-};
-
-//記事ページ生成
 exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
 
-  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.jsx`);
-
+  // 記事ページ生成
   const result = await graphql(`
     query MyQuery {
       allMarkdownRemark {
@@ -94,13 +31,34 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     return;
   }
 
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+  const allMd = result.data.allMarkdownRemark;
+
+  const blogPostTemplate = require.resolve(`./src/templates/blogTemplate.jsx`);
+  allMd.edges.forEach(({ node }) => {
     createPage({
       path: node.frontmatter.slug,
       component: blogPostTemplate,
       context: {
         // additional data can be passed via context
         slug: node.frontmatter.slug,
+      },
+    });
+  });
+
+  // カテゴリ別ページ生成
+  const categoryList = [].concat(
+    ...allMd.edges.map(({ node }) => node.frontmatter.category)
+  );
+
+  const categoryTemplate = require.resolve(
+    "./src/templates/categoryTemplate.jsx"
+  );
+  categoryList.forEach((category) => {
+    createPage({
+      path: pathCreator.createCategoryPath(category),
+      component: categoryTemplate,
+      context: {
+        category,
       },
     });
   });

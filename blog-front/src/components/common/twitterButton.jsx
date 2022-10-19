@@ -11,9 +11,8 @@ export const TwitterShareButton = ({ text, url, hashtags, via }) => {
         .replace(" ", "%20")}${url !== undefined ? `&url=${url}` : ""}${
         hashtags !== undefined ? `${hashtags.join(",")}` : ""
       }${via !== undefined ? `&via=${via}` : ""}`}
-      color="twitterBlue"
     >
-      <TwitterIcon fontSize="large" />
+      <TwitterIcon sx={{ color: "#1D9BF0" }} fontSize="large" />
     </IconButton>
   );
 };
