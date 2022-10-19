@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "gatsby";
 import { CategoryList } from "../common/category";
-import { Card, Box, Typography, Collapse } from "@mui/material";
-import { TransitionGroup } from "react-transition-group";
+import { Card, Box, Typography } from "@mui/material";
 
 export const PostList = (props) => {
   let { posts } = props;

@@ -56,7 +56,9 @@ let config = {
               showLineNumbers: true,
               noInlineHighlight: true,
             },
-          },
+          },{
+            resolve:`gatsby-remark-images`
+          }
         ],
       },
     },
