@@ -23,12 +23,13 @@ jobs:
           node-version: "16.9.1"
 
       - name: Install packages
+        working-directory: ./blog-front
         run: |
-          cd ./blog-front
           npm i -g gatsby-cli@3.0.0 yarn@1.22.10
           yarn install
 
       - name: Build
+        working-directory: ./blog-front
         run: "gatsby build"
 
       - name: Deploy on Github Pages
