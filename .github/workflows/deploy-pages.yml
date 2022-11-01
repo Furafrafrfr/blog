@@ -5,9 +5,6 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
-
-
 
 jobs:
   deploy:
@@ -20,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: "16.9.1"
+          node-version: '16.9.1'
 
       - name: Install packages
         working-directory: ./blog-front
@@ -30,7 +27,7 @@ jobs:
 
       - name: Build
         working-directory: ./blog-front
-        run: "gatsby build"
+        run: 'gatsby build'
 
       - name: Deploy on Github Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -39,4 +36,4 @@ jobs:
           deploy_key: ${{secrets.ACTIONS_DEPLOY_KEY}}
           external_repository: Furafrafrfr/Furafrafrfr.github.io
           publish_branch: main
-          publish_dir: ./public
+          publish_dir: ./blog-front/public
