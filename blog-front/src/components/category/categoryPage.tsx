@@ -3,8 +3,17 @@ import { Box } from "@mui/system";
 import { PostList } from "../index/postList";
 import { HomeButton } from "../common/homeButon";
 import { CategoryList } from "../common/category";
+import { MarkdownFmNode } from "postData";
 
-export const CategoryPage = ({ posts, category }) => {
+type CategoryPageProps = {
+  posts: MarkdownFmNode[];
+  category: string;
+};
+
+export const CategoryPage: React.FC<CategoryPageProps> = ({
+  posts,
+  category,
+}) => {
   return (
     <>
       <Box display="flex" justifyContent="space-between">

@@ -3,7 +3,10 @@ import { Box, Typography, Stack } from "@mui/material";
 import { TwitterShareButton } from "./twitterButton";
 import { CopyTextButton } from "./copy";
 
-export const ShareButtons = ({ url, tweetText }) => {
+export const ShareButtons: React.FC<{ url: string; tweetText: string }> = ({
+  url,
+  tweetText,
+}) => {
   return (
     <Box
       display="flex"
