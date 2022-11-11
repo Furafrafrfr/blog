@@ -18,7 +18,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn'
+          cache: yarn
+          cache-dependency-path: ./blog-front/yarn.lock
 
       - name: Install packages
         working-directory: ./blog-front
