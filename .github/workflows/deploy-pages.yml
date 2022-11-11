@@ -23,13 +23,11 @@ jobs:
 
       - name: Install packages
         working-directory: ./blog-front
-        run: |
-          yarn global add gatsby-cli
-          yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Build
         working-directory: ./blog-front
-        run: 'gatsby build'
+        run: 'npx gatsby build'
 
       - name: Deploy on Github Pages
         uses: peaceiris/actions-gh-pages@v3
