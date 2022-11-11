@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IconButton } from "gatsby-theme-material-ui";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-export const CopyTextButton = ({ text }) => {
+export const CopyTextButton: React.FC<{ text: string }> = ({ text }) => {
   const [copyNow, setCopyNow] = useState(false);
   const [copied, setCopied] = useState(false);
   useEffect(() => {

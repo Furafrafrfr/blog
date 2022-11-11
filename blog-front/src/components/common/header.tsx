@@ -11,25 +11,21 @@ import { Typography } from "@mui/material";
 
 config.autoAddCss = false;
 
-export const Header = () => {
-  const data = useStaticQuery(graphql`
-    {
-      allFile(filter: { name: { eq: "header_icon" } }) {
-        edges {
-          node {
-            childImageSharp {
-              gatsbyImageData
-            }
-            name
-          }
+export const Header: React.FC = () => {
+  const data = useStaticQuery<
+    Override<Queries.HeaderQuery, ImageFileNode>
+  >(graphql`
+    query Header {
+      file(name: { eq: "header_icon" }) {
+        childImageSharp {
+          gatsbyImageData
         }
+        name
       }
     }
   `);
 
-  const headerAvatarSrc = getSrc(
-    data.allFile.edges.filter(({ node }) => node.name === "header_icon")[0].node
-  );
+  const headerAvatarSrc = getSrc(data.file);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -50,10 +46,14 @@ export const Header = () => {
         }}
       />
       <Box mx={2}>
-        <Typography component="h1" variant="h1s" my={1}>
+        <Typography
+          component="h1"
+          fontSize={theme.breakpoints.up("md") ? "2rem" : "1.75rem"}
+          my={1}
+        >
           ぐっちー
         </Typography>
-        <Typography component="p" variant={"body2"}>
+        <Typography component="p" variant="body2">
           経済学部の大学生をやっています。ゲームをしたり本を読んだりプログラミングをしたりしています。C#とかReactとかGatsby.jsが好きです。
         </Typography>
       </Box>
