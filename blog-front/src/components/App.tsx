@@ -1,6 +1,6 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import { getImage, GatsbyImage } from "gatsby-plugin-image";
+import { getImage, GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
 import { Container, Paper, Fab, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { KeyboardArrowUp } from "@mui/icons-material";
@@ -9,40 +9,38 @@ import { Header } from "./common/header";
 import { Footer } from "./common/footer";
 import { backToTop } from "../util/backToTop";
 
-export const App = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    {
-      allFile(filter: { name: { eq: "header_image" } }) {
-        edges {
-          node {
-            childImageSharp {
-              gatsbyImageData
-            }
-            name
+type AppProps = {
+  children: React.ReactNode;
+};
+
+export const App: React.FC<AppProps> = ({ children }) => {
+  const data = useStaticQuery<Override<Queries.AppQuery, ImageFileNode>>(
+    graphql`
+      query App {
+        file(name: { eq: "header_image" }) {
+          childImageSharp {
+            gatsbyImageData
           }
         }
       }
-    }
-  `);
+    `
+  );
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
-  let fabBottom = matches ? 16 : 32;
-  let fabRight = matches ? 16 : 64;
-  let width = matches ? "100%" : "70%";
+  const fabBottom = matches ? 16 : 32;
+  const fabRight = matches ? 16 : 64;
+  const width = matches ? "100%" : "70%";
 
-  const headerImage = getImage(
-    data.allFile.edges.filter(({ node }) => node.name === "header_image")[0]
-      .node
-  );
+  const headerImage = getImage(data.file);
 
   return (
     <>
       <Container fixed>
         <Paper sx={{ maxWidth: "lg", pb: 2 }}>
           <div id="scroll-top-anchor" />
-          <GatsbyImage image={headerImage} alt="aaa" />
+          <GatsbyImage image={headerImage as IGatsbyImageData} alt="aaa" />
           <Box width="90%" m="auto">
             <Header />
             <Box display="flex" justifyContent="space-between">

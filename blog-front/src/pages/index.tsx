@@ -1,22 +1,31 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, PageProps } from "gatsby";
 
 import "../styles/style.css";
 import { Index } from "../components/index/Index";
 import { Head } from "../components/common/head";
+import { getImage } from "gatsby-plugin-image";
+import { MarkdownFmNode } from "../types/postData";
 
-const Home = ({ data }) => {
+const Home = ({
+  data,
+}: PageProps<
+  Override<
+    Queries.HomeQuery,
+    ImageFileNode & { allMarkdownRemark: { edges: MarkdownFmNode[] } }
+  >
+>) => {
   const posts = data.allMarkdownRemark.edges;
 
   return (
     <>
       <Head
-        title={data.site.siteMetadata.title}
-        description={data.site.siteMetadata.description}
-        lang={data.site.siteMetadata.lang}
-        siteUrl={data.site.siteMetadata.siteUrl}
-        pageUrl={data.site.siteMetadata.siteUrl}
-        avatar={data.file}
+        title={data.site?.siteMetadata?.title || undefined}
+        description={data.site?.siteMetadata?.description || undefined}
+        lang={data.site?.siteMetadata?.lang || undefined}
+        siteUrl={data.site?.siteMetadata?.siteUrl || ""}
+        pageUrl={data.site?.siteMetadata?.siteUrl || ""}
+        avatar={getImage(data.file)}
       />
       <Index posts={posts} />
     </>
@@ -26,7 +35,7 @@ const Home = ({ data }) => {
 export default Home;
 
 export const query = graphql`
-  query MyQuery {
+  query Home {
     site {
       siteMetadata {
         siteUrl

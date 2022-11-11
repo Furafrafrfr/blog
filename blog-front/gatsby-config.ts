@@ -3,12 +3,20 @@
  *
  * See: https://www.gatsbyjs.com/docs/gatsby-config/
  */
+// @ts-check
 
-require("dotenv").config({
+import { GatsbyConfig } from "gatsby";
+
+import dotenv from "dotenv";
+dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
 });
-let config = {
+
+const config: GatsbyConfig = {
   /* Your site config here */
+  graphqlTypegen: {
+    typesOutputPath: "./src/types/gatsby-types.d.ts",
+  },
   siteMetadata: {
     title: "ぐちろぐ",
     description: "ぐっちーのブログ",
@@ -56,9 +64,10 @@ let config = {
               showLineNumbers: true,
               noInlineHighlight: true,
             },
-          },{
-            resolve:`gatsby-remark-images`
-          }
+          },
+          {
+            resolve: `gatsby-remark-images`,
+          },
         ],
       },
     },
