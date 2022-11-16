@@ -68,6 +68,9 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-#Environment variables
+# Environment variables
 .env.development
 .env.production
+
+# Gatsby GraphQL Typegen
+gatsby-types.d.ts
