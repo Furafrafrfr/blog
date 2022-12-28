@@ -2,7 +2,6 @@ import React from "react";
 import { Head } from "../components/common/head";
 import { graphql, PageProps } from "gatsby";
 import { CategoryPage } from "../components/category/categoryPage";
-import { MarkdownFmNode } from "postData";
 
 type QueryResult = Override<Queries.CategoryQuery, ImageFileNode>;
 type CategoryPageProps = Override<
@@ -15,6 +14,17 @@ const CategoryTemplate: React.FC<CategoryPageProps> = ({
   pageContext,
 }) => {
   const posts = data.allMarkdownRemark.edges;
+  const frontmatter = posts
+    .filter((val): val is NonNullable<typeof val> => !!val)
+    .map(({ node: { frontmatter: data } }) => ({
+      title: data?.title || "null",
+      slug: data?.slug || "/404",
+      date: data?.date || "",
+      category:
+        data?.category?.filter(
+          (val): val is NonNullable<typeof val> => !!val
+        ) || [],
+    }));
 
   return (
     <>
@@ -30,10 +40,7 @@ const CategoryTemplate: React.FC<CategoryPageProps> = ({
         }
         avatar={data.file}
       />
-      <CategoryPage
-        posts={posts.filter((post) => post) as MarkdownFmNode[]}
-        category={pageContext.category}
-      />
+      <CategoryPage posts={frontmatter} category={pageContext.category} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import { getImage, GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
+import { getImage, GatsbyImage } from "gatsby-plugin-image";
 import { Container, Paper, Fab, useMediaQuery, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { KeyboardArrowUp } from "@mui/icons-material";
@@ -14,7 +14,7 @@ type AppProps = {
 };
 
 export const App: React.FC<AppProps> = ({ children }) => {
-  const data = useStaticQuery<Override<Queries.AppQuery, ImageFileNode>>(
+  const data = useStaticQuery<Queries.AppQuery>(
     graphql`
       query App {
         file(name: { eq: "header_image" }) {
@@ -33,14 +33,16 @@ export const App: React.FC<AppProps> = ({ children }) => {
   const fabRight = matches ? 16 : 64;
   const width = matches ? "100%" : "70%";
 
-  const headerImage = getImage(data.file);
+  const headerImage = getImage(data.file?.childImageSharp || null);
 
   return (
     <>
       <Container fixed>
         <Paper sx={{ maxWidth: "lg", pb: 2 }}>
           <div id="scroll-top-anchor" />
-          <GatsbyImage image={headerImage as IGatsbyImageData} alt="aaa" />
+          {headerImage && (
+            <GatsbyImage image={headerImage} alt="header image" />
+          )}
           <Box width="90%" m="auto">
             <Header />
             <Box display="flex" justifyContent="space-between">

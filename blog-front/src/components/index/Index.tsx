@@ -1,10 +1,9 @@
 import React from "react";
 import { Box } from "@mui/system";
 import { PostList } from "./postList";
-import { MarkdownFmNode } from "../../types/postData";
 
 type IndexProps = {
-  posts: MarkdownFmNode[];
+  posts: Frontmatter[];
 };
 
 export const Index: React.FC<IndexProps> = ({ posts }) => {

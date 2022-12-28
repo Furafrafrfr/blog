@@ -3,10 +3,9 @@ import { Box } from "@mui/system";
 import { PostList } from "../index/postList";
 import { HomeButton } from "../common/homeButon";
 import { CategoryList } from "../common/category";
-import { MarkdownFmNode } from "postData";
 
 type CategoryPageProps = {
-  posts: MarkdownFmNode[];
+  posts: Frontmatter[];
   category: string;
 };
 

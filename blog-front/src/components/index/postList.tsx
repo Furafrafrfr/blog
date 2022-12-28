@@ -3,10 +3,9 @@ import { Link } from "gatsby";
 import { CategoryList } from "../common/category";
 import { Card, Box, Typography } from "@mui/material";
 import { useIsUpBreakpoint } from "../../hooks/style";
-import type { MarkdownFmNode } from "../../types/postData";
 
 type PostListProps = {
-  posts: MarkdownFmNode[];
+  posts: Frontmatter[];
 };
 
 export const PostList: React.FC<PostListProps> = ({ posts }) => {
@@ -14,8 +13,8 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
     <>
       {posts.map((post) => (
         <Post
-          key={post.node.frontmatter.slug}
-          pageData={post.node.frontmatter}
+          key={post.slug}
+          pageData={post}
         />
       ))}
     </>
