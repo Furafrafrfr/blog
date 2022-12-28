@@ -8,6 +8,7 @@
 import { GatsbyConfig } from "gatsby";
 
 import dotenv from "dotenv";
+import { toJstString } from "./src/util/toJstString";
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
 });
@@ -91,6 +92,74 @@ const config: GatsbyConfig = {
     `gatsby-plugin-twitter`,
     `gatsby-plugin-material-ui`,
     `gatsby-theme-material-ui`,
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        output: "/sitemaps",
+        query: `{
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+          allMarkdownRemark {
+            nodes {
+              frontmatter {
+                date (formatString: "YYYY-MM-DD")
+                slug
+              }
+            }
+          }
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+        }
+        `,
+
+        resolvePages: ({
+          allSitePage: { nodes: pages },
+          allMarkdownRemark: { nodes: blogNodes },
+        }: {
+          allSitePage: {
+            nodes: {
+              path: string;
+            }[];
+          };
+          allMarkdownRemark: {
+            nodes: {
+              frontmatter: {
+                slug: string;
+                date: string;
+              };
+            }[];
+          };
+        }) => {
+          const mdMap = blogNodes.reduce<
+            Record<string, { path: string; date?: string } | undefined>
+          >((acc, { frontmatter }) => {
+            acc[frontmatter.slug] = {
+              path: frontmatter.slug,
+              date: frontmatter.date,
+            };
+            return acc;
+          }, {});
+
+          return pages.map((page) => ({
+            ...page,
+            ...mdMap[page.path],
+          }));
+        },
+
+        serialize: (page: { path: string; date?: string }) => {
+          return {
+            url: page.path,
+            lastmod: page.date && toJstString(page.date),
+          };
+        },
+      },
+    },
   ],
 };
 
