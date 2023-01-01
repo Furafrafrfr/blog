@@ -14,7 +14,8 @@
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "tsc": "tsc --noEmit",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "new:post": "mkdir -p $TARGET && echo -e '---\ntitle: \ndate: \ncategory: []\nslug: /blog/\n---' > $TARGET/text.md"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
