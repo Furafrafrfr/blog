@@ -9,6 +9,7 @@
     "dev": "gatsby develop",
     "devhost": "gatsby develop --host 192.168.3.12",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "build:serve": "gatsby build && gatsby serve",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
