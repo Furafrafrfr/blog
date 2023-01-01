@@ -1,27 +1,16 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import { getSrc, ImageDataLike } from "gatsby-plugin-image";
+import { getSrc } from "gatsby-plugin-image";
+import { useHeadQuery } from "../../hooks/useHeadQuery";
 
-type HeadProp = {
-  title: string | undefined;
-  description: string | undefined;
-  lang: string | undefined;
-  siteUrl: string;
-  pageUrl: string;
-  avatar: ImageDataLike | undefined;
-};
+export const Head: React.FC<{ pathname: string }> = ({ pathname }) => {
+  const data = useHeadQuery();
 
-export const Head: React.FC<HeadProp> = ({
-  title,
-  description,
-  lang,
-  siteUrl,
-  pageUrl,
-  avatar,
-}) => {
+  const { title, description, siteUrl, ogpImg } = data;
+
+  const pageUrl = siteUrl + pathname;
   return (
-    <Helmet>
-      <html lang={lang || "ja-jp"} />
+    <>
+      <html lang={title || "ja-jp"} />
       <title>{title}</title>
       <meta name="description" content={description || "ぐっちーのブログ"} />
       <link rel="canonical" href={pageUrl} />
@@ -29,11 +18,11 @@ export const Head: React.FC<HeadProp> = ({
       <meta name="og:title" content={title || "ぐちろぐ"} />
       <meta name="og:type" content="website" />
       <meta name="og:url" content={pageUrl} />
-      {avatar && (
-        <meta name="og:image" content={`${siteUrl}${getSrc(avatar)}`} />
+      {siteUrl && ogpImg && (
+        <meta name="og:image" content={siteUrl + getSrc(ogpImg)} />
       )}
       <meta name="og:images:type" content="image/png" />
       <meta name="twitter:card" content="summary" />
-    </Helmet>
+    </>
   );
 };
