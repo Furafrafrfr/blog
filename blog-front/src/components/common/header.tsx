@@ -12,9 +12,7 @@ import { Typography } from "@mui/material";
 config.autoAddCss = false;
 
 export const Header: React.FC = () => {
-  const data = useStaticQuery<
-    Override<Queries.HeaderQuery, ImageFileNode>
-  >(graphql`
+  const data = useStaticQuery<Queries.HeaderQuery>(graphql`
     query Header {
       file(name: { eq: "header_icon" }) {
         childImageSharp {
@@ -24,8 +22,6 @@ export const Header: React.FC = () => {
       }
     }
   `);
-
-  const headerAvatarSrc = getSrc(data.file);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -38,13 +34,15 @@ export const Header: React.FC = () => {
       my={2}
       mx="auto"
     >
-      <Avatar
-        src={headerAvatarSrc}
-        sx={{
-          width: matches ? "5rem" : "7rem",
-          height: matches ? "5rem" : "7rem",
-        }}
-      />
+      {data.file?.childImageSharp && (
+        <Avatar
+          src={getSrc(data.file.childImageSharp)}
+          sx={{
+            width: matches ? "5rem" : "7rem",
+            height: matches ? "5rem" : "7rem",
+          }}
+        />
+      )}
       <Box mx={2}>
         <Typography
           component="h1"
