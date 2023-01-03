@@ -3,13 +3,8 @@ import { getSrc } from "gatsby-plugin-image";
 import { graphql, useStaticQuery } from "gatsby";
 import { Box } from "@mui/system";
 
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
-
 import { Avatar, useTheme, useMediaQuery } from "@mui/material";
 import { Typography } from "@mui/material";
-
-config.autoAddCss = false;
 
 export const Header: React.FC = () => {
   const data = useStaticQuery<Queries.HeaderQuery>(graphql`
