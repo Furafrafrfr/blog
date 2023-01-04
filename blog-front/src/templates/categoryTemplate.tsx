@@ -1,18 +1,14 @@
 import React from "react";
-import { Head } from "../components/common/head";
-import { graphql, PageProps } from "gatsby";
+import { Head as SEO } from "../components/common/head";
+import { graphql, HeadFC, PageProps } from "gatsby";
 import { CategoryPage } from "../components/category/categoryPage";
 
-type QueryResult = Override<Queries.CategoryQuery, ImageFileNode>;
-type CategoryPageProps = Override<
-  PageProps<QueryResult>,
-  { pageContext: { category: string } }
->;
-
-const CategoryTemplate: React.FC<CategoryPageProps> = ({
-  data,
-  pageContext,
-}) => {
+const CategoryTemplate: React.FC<
+  Override<
+    PageProps<Queries.CategoryQuery>,
+    { pageContext: { category: string } }
+  >
+> = ({ data, pageContext }) => {
   const posts = data.allMarkdownRemark.edges;
   const frontmatter = posts
     .filter((val): val is NonNullable<typeof val> => !!val)
@@ -26,35 +22,15 @@ const CategoryTemplate: React.FC<CategoryPageProps> = ({
         ) || [],
     }));
 
-  return (
-    <>
-      <Head
-        title={data.site?.siteMetadata?.title || undefined}
-        description={data.site?.siteMetadata?.description || undefined}
-        lang={data.site?.siteMetadata?.lang || undefined}
-        siteUrl={
-          data.site?.siteMetadata?.siteUrl || "https://furafrafrfr.github.io"
-        }
-        pageUrl={
-          data.site?.siteMetadata?.siteUrl || "https://furafrafrfr.github.io"
-        }
-        avatar={data.file}
-      />
-      <CategoryPage posts={frontmatter} category={pageContext.category} />
-    </>
-  );
+  return <CategoryPage posts={frontmatter} category={pageContext.category} />;
 };
+
+export const Head: HeadFC = ({ location }) => (
+  <SEO pathname={location.pathname} />
+);
 
 export const query = graphql`
   query Category($category: [String]) {
-    site {
-      siteMetadata {
-        siteUrl
-        description
-        lang
-        title
-      }
-    }
     allMarkdownRemark(
       sort: { fields: frontmatter___date, order: DESC }
       filter: { frontmatter: { category: { in: $category } } }
@@ -68,11 +44,6 @@ export const query = graphql`
             title
           }
         }
-      }
-    }
-    file(name: { eq: "header_icon" }) {
-      childImageSharp {
-        gatsbyImageData(height: 600, width: 600)
       }
     }
   }
